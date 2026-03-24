@@ -1,0 +1,1 @@
+export const BASE_URL = "https://medical-cca8b-default-rtdb.firebaseio.com/";
