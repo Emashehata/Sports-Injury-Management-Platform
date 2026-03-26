@@ -43,10 +43,10 @@ function renderNavbar() {
             <li><a href="${base}pages/services/services.html">الخدمات</a></li>
             <li><a href="${base}pages/injuries/injuries.html">الإصابات</a></li>
             <li><a href="${base}pages/doctors/doctors.html">الفريق الطبي</a></li>
-            <li><a href="${base}pages/contact/contact.html">تواصل معنا</a></li>
+            <li><a href="${base}pages/contact_us/contact_us.html">تواصل معنا</a></li>
           </ul>
 
-          <a href="${base}pages/contact/contact.html" class="navbar-btn">احجز استشارة</a>
+          <a href="${base}pages/contact_us/contact_us.html" class="navbar-btn">احجز استشارة</a>
         </div>
       </div>
     </div>
