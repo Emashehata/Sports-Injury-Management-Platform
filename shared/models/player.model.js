@@ -1,25 +1,29 @@
 export class Player {
   constructor({
     id = "",
-    user_id = "",
     age = 0,
     sport = "",
-    club_id = ""
+    height = 0,
+    weight = 0
+
   } = {}) {
-    this.id = id;
-    this.user_id = user_id;
+    this.id = id; // نفس id بتاع user
     this.age = age;
     this.sport = sport;
-    this.club_id = club_id;
+    this.height = height;
+    this.weight = weight;
   }
 
   toJSON() {
     return {
-      id: this.id,
-      user_id: this.user_id,
       age: this.age,
       sport: this.sport,
-      club_id: this.club_id
+      height: this.height,
+      weight: this.weight
     };
+  }
+
+  isValid() {
+    return this.id !== "" && this.age > 0;
   }
 }

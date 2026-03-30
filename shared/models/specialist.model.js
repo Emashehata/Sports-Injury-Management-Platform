@@ -1,14 +1,12 @@
 export class Specialist {
   constructor({
     id = " ",
-    user_id = " ",
     qualification = " ",
     experience = 0,
     specialization = " ",
     clinic_address = " "
   } = {}) {
     this.id = id;
-    this.user_id = user_id;
     this.qualification = qualification;
     this.experience = experience;
     this.specialization = specialization;
@@ -18,7 +16,6 @@ export class Specialist {
   toJSON() {
     return {
      id: this.id,
-     user_id: this.user_id,
      qualification: this.qualification,  
      experience: this.experience,
      specialization: this.specialization,
