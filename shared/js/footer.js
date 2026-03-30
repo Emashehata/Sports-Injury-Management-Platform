@@ -7,6 +7,7 @@ function getBasePath() {
 
   return "./";
 }
+
 function renderFooter() {
   const footer = document.querySelector("footer");
   if (!footer) return;
@@ -17,29 +18,47 @@ function renderFooter() {
   footer.className = "main-footer";
 
   footer.innerHTML = `
+    <img src="${base}assets/images/footer_bg.png" alt="" class="footer-bg-circles">
+
     <div class="container">
-      <div class="footer-content">
+      <div class="footer-top">
 
-        <!-- About -->
-        <div class="footer-about">
-          <h3>SportCare</h3>
-          <p>
-            منصة متكاملة لإدارة الإصابات الرياضية وتقديم أفضل رعاية طبية للرياضيين
-            بأحدث الأساليب الحديثة.
-          </p>
+        <div class="footer-brand-col">
+          <a href="${base}pages/Home/home.html" class="footer-brand">
+            <img src="${base}assets/images/logosport.png" alt="SportCare Logo" class="footer-logo">
+            <span class="footer-brand-name">SportCare</span>
+          </a>
 
-          <!-- Social Icons -->
-          <div class="footer-social">
-            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="#"><i class="fa-solid fa-envelope"></i></a>
+          <div class="footer-contact-list">
+            <div class="footer-contact-item">
+              <span class="footer-contact-icon">
+                <i class="fa-regular fa-envelope"></i>
+              </span>
+              <span class="footer-contact-text">info@sportcare.com</span>
+            </div>
+
+            <div class="footer-contact-item">
+              <span class="footer-contact-icon">
+                <i class="fa-solid fa-phone-volume"></i>
+              </span>
+              <span class="footer-contact-text">+20 100 000 0000</span>
+            </div>
+
+            <div class="footer-contact-item footer-contact-item-address">
+              <span class="footer-contact-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </span>
+              <span class="footer-contact-text">
+                Cairo, Egypt <br>
+                Sports Injury Management Platform
+              </span>
+            </div>
           </div>
         </div>
 
-        <!-- Links -->
-        <div class="footer-links">
-          <h4>روابط سريعة</h4>
-          <ul>
+        <div class="footer-links-col">
+          <h4 class="footer-title">نظرة عامة</h4>
+          <ul class="footer-links">
             <li><a href="${base}pages/Home/home.html">الرئيسية</a></li>
             <li><a href="${base}pages/About_us/about_us.html">من نحن</a></li>
             <li><a href="${base}pages/services/services.html">الخدمات</a></li>
@@ -48,22 +67,43 @@ function renderFooter() {
           </ul>
         </div>
 
-        <!-- Contact -->
-        <div class="footer-contact">
-          <h4>تواصل معنا</h4>
-          <p><i class="fa-solid fa-phone"></i> 01000000000</p>
-          <p><i class="fa-solid fa-envelope"></i> info@sportcare.com</p>
-          <p><i class="fa-solid fa-location-dot"></i> Cairo, Egypt</p>
+        <div class="footer-links-col">
+          <h4 class="footer-title">الخدمات</h4>
+          <ul class="footer-links">
+            <li><a href="#">تسجيل الإصابات</a></li>
+            <li><a href="#">متابعة الحالة الطبية</a></li>
+            <li><a href="#">برامج التأهيل</a></li>
+            <li><a href="#">تقارير الأداء الطبي</a></li>
+            <li><a href="#">تقييم العودة للملاعب</a></li>
+          </ul>
         </div>
 
+        <div class="footer-links-col">
+          <h4 class="footer-title">السياسات</h4>
+          <ul class="footer-links">
+            <li><a href="#">سياسة الخصوصية</a></li>
+            <li><a href="#">شروط الاستخدام</a></li>
+            <li><a href="#">سياسة الدعم</a></li>
+            <li><a href="#">سياسة الإلغاء</a></li>
+            <li><a href="#">سياسة الإحالة</a></li>
+          </ul>
+        </div>
       </div>
 
-      <!-- Bottom -->
       <div class="footer-bottom">
-        <p>© ${year} جميع الحقوق محفوظة - SportCare</p>
+         
+        <p class="footer-copy">جميع الحقوق محفوظة لمنصة © ${year} SportCare</p>
+
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
       </div>
     </div>
   `;
 }
 
 renderFooter();
+
+export { renderFooter };
