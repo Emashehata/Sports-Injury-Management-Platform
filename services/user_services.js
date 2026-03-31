@@ -7,13 +7,22 @@ export async function getAllUsers() {
     const response = await fetch(`${BASE_URL}/users.json`);
 
     if (!response.ok) {
-      console.error("Error fetching users");
-      return [];
+      return {
+        success: false,
+        data: [],
+        message: "Error fetching users"
+      };
     }
 
     const data = await response.json();
 
-    if (!data) return [];
+    if (!data) {
+      return {
+        success: true,
+        data: [],
+        message: "No users found"
+      };
+    }
 
     const users = Object.entries(data).map(([key, value]) => {
       return new User({
@@ -22,11 +31,20 @@ export async function getAllUsers() {
       });
     });
 
-    return users;
+    return {
+      success: true,
+      data: users,
+      message: "Users fetched successfully"
+    };
 
   } catch (error) {
-    console.error("Error:", error);
-    return [];
+    console.error(error);
+
+    return {
+      success: false,
+      data: [],
+      message: "Unexpected error"
+    };
   }
 }
 function validateUser(user) {
@@ -48,31 +66,40 @@ function validateUser(user) {
   }
 
   return null;
-}
+} 
 export async function addUser(userData) {
   try {
     const user = new User(userData);
 
     const validationError = validateUser(user);
     if (validationError) {
-      console.warn(validationError);
-      return { success: false, message: validationError };
+      return {
+        success: false,
+        data: null,
+        message: validationError
+      };
     }
 
-    const users = await getAllUsers();
-    
+    const usersRes = await getAllUsers();
+    const users = usersRes.data || [];
+
     const emailExists = users.some(u => u.email === user.email);
+
     if (emailExists) {
-            console.warn(`Email "${user.email}" already exists!`);
-            return null;
+      return {
+        success: false,
+        data: null,
+        message: `Email "${user.email}" already exists`
+      };
     }
 
     let lastId = 1000;
+
     if (users.length > 0) {
-        const ids = users.map(u => Number(u.id));
-        lastId = Math.max(...ids);
+      const ids = users.map(u => Number(u.id));
+      lastId = Math.max(...ids);
     }
-    
+
     const newId = (lastId + 1).toString();
     user.id = newId;
 
@@ -82,42 +109,65 @@ export async function addUser(userData) {
       body: JSON.stringify(user.toJSON())
     });
 
-    return { success: true, data: user };
+    return {
+      success: true,
+      data: user,
+      message: "User created successfully"
+    };
 
   } catch (error) {
     console.error(error);
-    return { success: false, message: "Something went wrong" };
+
+    return {
+      success: false,
+      data: null,
+      message: "Something went wrong"
+    };
   }
 }
+
 export async function getUserById(id) {
-  const res = await fetch(`${BASE_URL}/users/${id}.json`);
-  const data = await res.json();
+  try {
+    const res = await fetch(`${BASE_URL}/users/${id}.json`);
+    const data = await res.json();
 
-  if (!data) return null;
+    if (!data) {
+      return {
+        success: false,
+        data: null,
+        message: "User not found"
+      };
+    }
 
-  return {
-    id,
-    ...data
-  };
+    return {
+      success: true,
+      data: {
+        id,
+        ...data
+      },
+      message: "User found"
+    };
+
+  } catch (error) {
+    console.error(error);
+
+    return {
+      success: false,
+      data: null,
+      message: "Error fetching user"
+    };
+  }
 }
 export async function updateUser(id, updatedData) {
   try {
-    const existingUser = await getUserById(id);
+    const existingUserRes = await getUserById(id);
 
-    if (!existingUser) {
-      return { success: false, message: "User not found" };
-    }
-
-    // Optional: email validation if updated
-    if (updatedData.email) {
-      const users = await getAllUsers();
-      const emailExists = users.some(
-        u => u.email === updatedData.email && u.id !== id
-      );
-
-      if (emailExists) {
-        return { success: false, message: "Email already exists" };
-      }
+    if (!existingUserRes.success) {
+      return {
+        success: false,
+        data: null,
+        message: "User not found"
+      };
     }
 
     const response = await fetch(`${BASE_URL}/users/${id}.json`, {
@@ -129,20 +179,30 @@ export async function updateUser(id, updatedData) {
     });
 
     if (!response.ok) {
-      return { success: false, message: "Failed to update user" };
+      return {
+        success: false,
+        data: null,
+        message: "Failed to update user"
+      };
     }
 
     return {
       success: true,
       data: {
-        ...existingUser,
+        ...existingUserRes.data,
         ...updatedData
-      }
+      },
+      message: "User updated successfully"
     };
 
   } catch (error) {
     console.error(error);
-    return { success: false, message: "Something went wrong" };
+
+    return {
+      success: false,
+      data: null,
+      message: "Something went wrong"
+    };
   }
 }
 export async function deleteUser(id) {
@@ -152,28 +212,43 @@ export async function deleteUser(id) {
     });
 
     if (!response.ok) {
-      return { success: false, message: "Failed to delete user" };
+      return {
+        success: false,
+        data: null,
+        message: "Failed to delete user"
+      };
     }
 
     return {
       success: true,
+      data: null,
       message: "User deleted successfully"
     };
 
   } catch (error) {
     console.error(error);
-    return { success: false, message: "Something went wrong" };
+
+    return {
+      success: false,
+      data: null,
+      message: "Something went wrong"
+    };
   }
 }
 export async function searchUsers(keyword) {
   try {
-    const users = await getAllUsers();
+    const usersRes = await getAllUsers();
+    const users = usersRes.data || [];
 
     if (!keyword) {
-      return { success: true, data: users };
+      return {
+        success: true,
+        data: users,
+        message: "All users returned"
+      };
     }
 
-    const filteredUsers = users.filter(user =>
+    const filtered = users.filter(user =>
       user.name?.toLowerCase().includes(keyword.toLowerCase()) ||
       user.email?.toLowerCase().includes(keyword.toLowerCase()) ||
       user.user_type?.toLowerCase().includes(keyword.toLowerCase())
@@ -181,11 +256,17 @@ export async function searchUsers(keyword) {
 
     return {
       success: true,
-      data: filteredUsers
+      data: filtered,
+      message: "Search completed"
     };
 
   } catch (error) {
     console.error(error);
-    return { success: false, message: "Search failed" };
+
+    return {
+      success: false,
+      data: [],
+      message: "Search failed"
+    };
   }
 }

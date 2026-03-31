@@ -52,11 +52,13 @@
             <div class="row">
               <div class="col-md-6 form-group">
                 <label for="fullName"><i class="fas fa-user"></i> الاسم الكامل (ثلاثي)</label>
-                <input type="text" id="fullName" placeholder="مثال: علياء عبدالقادر شاهين " required>
+                <input type="text" id="fullName" placeholder=" علياء عبدالقادر شاهين " required>
+                <small class="error-msg" id="fullNameError"></small>
               </div>
               <div class="col-md-6 form-group">
                 <label for="email"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
                 <input type="email" id="email" placeholder="emanshehata@gmail.com" required>
+                <small class="error-msg" id="emailError"></small>   
               </div>
             </div>
 
@@ -64,6 +66,7 @@
               <div class="col-md-6 form-group">
                 <label for="phone"><i class="fas fa-mobile-alt"></i> رقم الهاتف</label>
                 <input type="tel" id="phone" placeholder="+01011110010" required>
+                <small class="error-msg" id="phoneError"></small>
               </div>
               <div class="col-md-6 form-group">
                 <label><i class="fas fa-calendar-alt"></i> تاريخ الميلاد (اختياري)</label>
@@ -77,6 +80,7 @@
                 <div class="pass-wrapper">
                   <input type="password" id="password" placeholder="6 أحرف على الأقل" required>
                   <button type="button" class="toggle-password" data-target="password"><i class="far fa-eye-slash"></i></button>
+                    <small id="passwordError" class="error-msg"></small>
                 </div>
               </div>
               <div class="col-md-6 form-group">
@@ -84,6 +88,7 @@
                 <div class="pass-wrapper">
                   <input type="password" id="confirmPassword" placeholder="أعد إدخال كلمة المرور" required>
                   <button type="button" class="toggle-password" data-target="confirmPassword"><i class="far fa-eye-slash"></i></button>
+                  <small id="confirmPasswordError" class="error-msg"></small>
                 </div>
               </div>
             </div>
@@ -93,12 +98,15 @@
               <div class="row">
                 <div class="col-md-4">
                   <input type="number" id="age" placeholder="العمر (سنة)" min="12" max="99" style="margin-bottom: 8px;">
+                  <small id="ageError" class="error-msg"></small>
                 </div>
                 <div class="col-md-4">
                   <input type="number" id="height" placeholder="الطول (سم)" step="0.5">
+                  <small id="heightError" class="error-msg"></small>
                 </div>
                 <div class="col-md-4">
                   <input type="number" id="weight" placeholder="الوزن (كجم)" step="0.5">
+                    <small id="weightError" class="error-msg"></small>
                 </div>
               </div>
             </div>
@@ -115,6 +123,7 @@
                 <div class="sport-chip" data-sport="التنس"><i class="fas fa-table-tennis"></i> التنس</div>
                 <div class="sport-chip" data-sport="الفنون القتالية"><i class="fas fa-fist-raised"></i> فنون قتالية</div>
                 <div class="sport-chip" data-sport="أخرى"><i class="fas fa-plus-circle"></i> أخرى</div>
+                <small id="sportError" class="error-msg"></small>
               </div>
               <small class="text-muted" style="display: block; margin-top: 8px;"><i class="fas fa-hand-pointer"></i> انقر لتحديد رياضة أو أكثر</small>
             </div>
