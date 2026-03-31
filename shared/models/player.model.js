@@ -7,7 +7,7 @@ export class Player {
     weight = 0
 
   } = {}) {
-    this.id = id; // نفس id بتاع user
+    this.id = id; 
     this.age = age;
     this.sport = sport;
     this.height = height;
