@@ -73,9 +73,6 @@ document.querySelectorAll(".sport-chip").forEach(chip => {
   });
 });
 
-// ======================
-// SUBMIT
-// ======================
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -90,10 +87,7 @@ form.addEventListener("submit", async (e) => {
   const weight = document.getElementById("weight").value;
 
   let profileUrl = "";
-
-  // ======================
-  // IMAGE → BASE64
-  // ======================
+  
   if (selectedFile) {
     try {
       profileUrl = await convertToBase64(selectedFile);
@@ -102,9 +96,6 @@ form.addEventListener("submit", async (e) => {
     }
   }
 
-  // ======================
-  // VALIDATION
-  // ======================
   clearErrors();
 
 let hasError = false;
@@ -119,7 +110,6 @@ if (!isValidEmail(email)) {
   hasError = true;
 }
 
-// فالديشن الرقم الهاتف - أرقام فقط
 if (phone && !/^\d+$/.test(phone)) {
   setError("phoneError", "رقم الهاتف يجب أن يحتوي على أرقام فقط");
   hasError = true;
