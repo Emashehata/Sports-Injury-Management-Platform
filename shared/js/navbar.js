@@ -40,13 +40,13 @@ function renderNavbar() {
           <ul class="navbar-links">
             <li><a href="${base}pages/Home/home.html">الرئيسية</a></li>
             <li><a href="${base}pages/About_us/about_us.html">من نحن</a></li>
-            <li><a href="${base}pages/services/services.html">الخدمات</a></li>
+            <li><a href="${base}pages/News/news.html">الاخبار</a></li>
             <li><a href="${base}pages/injuries/injuries.html">الإصابات</a></li>
-            <li><a href="${base}pages/doctors/doctors.html">الفريق الطبي</a></li>
+            <li><a href="${base}pages/Specialists/specialist.html">الفريق الطبي</a></li>
             <li><a href="${base}pages/contact_us/contact_us.html">تواصل معنا</a></li>
           </ul>
 
-          <a href="${base}pages/contact_us/contact_us.html" class="navbar-btn">احجز استشارة</a>
+          <a href="${base}pages/auth/Register/register.html" class="navbar-btn">احجز استشارة</a>
         </div>
       </div>
     </div>
