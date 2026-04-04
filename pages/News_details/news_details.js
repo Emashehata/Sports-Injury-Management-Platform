@@ -41,30 +41,48 @@ function showLoading() {
 
 function renderNewsDetails(news) {
   container.innerHTML = `
-    <div class="news-details-card">
-      <img
+    <div class="row g-5">
+
+      <!-- Image -->
+      <div class="col-lg-6">
+        <div class="news-image-box">
+             <img
         src="${news.image || "../../assets/images/image.png"}"
         alt="${escapeHtml(news.title)}"
         class="news-details-image"
       />
-
-      <div class="news-details-body">
-        <span class="news-details-date">
-          <i class="fa-regular fa-calendar ms-2"></i>
-          ${formatDate(news.date)}
-        </span>
-
-        <h2 class="news-details-title">${escapeHtml(news.title)}</h2>
-
-        <div class="news-details-content">
-          ${formatContent(news.content)}
         </div>
-
-        <a href="../News/news.html" class="back-btn">
-          <i class="fa-solid fa-arrow-right"></i>
-          العودة إلى الأخبار
-        </a>
       </div>
+
+      <!-- Content -->
+      <div class="col-lg-6">
+        <div class="news-details-content">
+
+      
+
+          <h2 class="news-title">
+            ${news.title}
+          </h2>
+
+          <span class="news-date">
+            <i class="fa-regular fa-calendar ms-2"></i>
+            ${formatDate(news.date)}
+          </span>
+
+          <p class="news-description">
+            ${formatContent(news.content)}
+          </p>
+
+          <div class="news-actions w-100">
+            <a href="../News/news.html" class="back-btn">
+              <i class="fa-solid fa-arrow-right"></i>
+              الرجوع للأخبار
+            </a>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   `;
 }

@@ -8,7 +8,7 @@ body {
 
 .details-hero {
   position: relative;
-  min-height: 320px;
+  min-height: 420px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,6 +127,84 @@ body {
   color: var(--text-muted);
   border: 1px solid var(--gray-300);
   box-shadow: 0 10px 25px rgba(3, 98, 86, 0.05);
+}
+
+
+.news-details-wrapper {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.news-image-box {
+  background: var(--gray-300);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.news-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 500px;
+}
+
+.news-details-content {
+  padding: 20px;
+}
+
+.news-sku {
+  display: block;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.news-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 10px;
+}
+
+.news-date {
+  display: block;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.news-description {
+  color: var(--text-muted);
+  line-height: 2;
+  font-size: 1.05rem;
+  margin-bottom: 25px;
+}
+
+.news-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Button نفس style المشروع */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--white);
+  text-decoration: none;
+  padding: 12px 22px;
+  border-radius: 999px;
+  transition: 0.3s ease;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+}
+
+.back-btn:hover {
+  background: var(--primary-hover);
 }
 
 @media (max-width: 768px) {
