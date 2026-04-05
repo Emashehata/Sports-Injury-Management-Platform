@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إضافة موعد متاح</title>
+
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- load global first -->
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/toaster.css">
+  <link rel="stylesheet" href="./add_appointment.css">
+  </head>
+  <body>
+    <nav></nav>
+ 
+ 
+
+    <section class="availability-section">
+      <div class="container">
+        <div class="availability-wrapper">
+          <div class="row g-0">
+ 
+            <!-- الجزء الجانبي: اليمين -->
+            <div class="col-lg-5">
+              <div class="availability-side">
+                <span class="availability-badge">إدارة المواعيد</span>
+                <h1>أضيفي الأوقات المتاحة لك</h1>
+                <p>
+                  حددي اليوم ووقت البداية ووقت النهاية ومدة الجلسة، ليظهر جدولك
+                  للمرضى بشكل منظم وواضح.
+                </p>
+
+                <div class="availability-side-points">
+                  <div class="side-point">
+                    <span class="icon-box">
+                      <i class="fa-regular fa-calendar-check"></i>
+                    </span>
+                    <span>تنظيم جدول الحجز بسهولة</span>
+                  </div>
+
+                  <div class="side-point">
+                    <span class="icon-box">
+                      <i class="fa-regular fa-clock"></i>
+                    </span>
+                    <span>تحديد مدة كل جلسة بدقة</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+               <div class="col-lg-7">
+              <div class="availability-form-box">
+                <div class="availability-header">
+                  <h2>إضافة موعد متاح</h2>
+                  <p>أدخل بيانات الوقت المتاح ليظهر في صفحة الحجز.</p>
+                </div>
+
+                <div id="accessMessage" class="form-message"></div>
+
+                <form id="availabilityForm">
+                  <div class="mb-3">
+                    <label for="day" class="form-label">اليوم</label>
+                    <div class="custom-input-group input-group">
+                      <span class="input-group-text">
+                        <i class="fa-regular fa-calendar-days"></i>
+                      </span>
+                      <select id="day" class="form-control" required>
+                        <option value="">اختر اليوم</option>
+                        <option value="Saturday">السبت</option>
+                        <option value="Sunday">الأحد</option>
+                        <option value="Monday">الإثنين</option>
+                        <option value="Tuesday">الثلاثاء</option>
+                        <option value="Wednesday">الأربعاء</option>
+                        <option value="Thursday">الخميس</option>
+                        <option value="Friday">الجمعة</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="startTime" class="form-label">وقت البداية</label>
+                      <div class="custom-input-group input-group">
+                        <span class="input-group-text">
+                          <i class="fa-regular fa-clock"></i>
+                        </span>
+                        <input
+                          type="time"
+                          id="startTime"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label for="endTime" class="form-label">وقت النهاية</label>
+                      <div class="custom-input-group input-group">
+                        <span class="input-group-text">
+                          <i class="fa-regular fa-clock"></i>
+                        </span>
+                        <input
+                          type="time"
+                          id="endTime"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="sessionDuration" class="form-label">
+                      مدة الجلسة بالدقائق
+                    </label>
+                    <div class="custom-input-group input-group">
+                      <span class="input-group-text">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                      </span>
+                      <input
+                        type="number"
+                        id="sessionDuration"
+                        class="form-control"
+                        placeholder="مثال: 30"
+                        min="10"
+                        step="5"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-check custom-check mb-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="isActive"
+                      checked
+                    />
+                    <label class="form-check-label" for="isActive">
+                      تفعيل هذا الموعد
+                    </label>
+                  </div>
+
+                  <button type="submit" class="availability-btn">
+                    حفظ الوقت المتاح
+                  </button>
+                </form>
+
+                <div id="availabilityMessage" class="form-message"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+
+   
+
+    <footer></footer>
+
+    <script type="module" src="../../../shared/js/footer.js"></script>
+<script type="module" src="../../../shared/js/navbar.js"></script>
+<script type="module" src="../../../shared/js/toaster.js"></script>
+<script type="module" src="./add_appointment.js"></script>
+  </body>
+</html>
