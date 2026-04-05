@@ -1,11 +1,210 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    hello emo i love youuuuuuuuuuuuuuu
-</body>
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مواعيدي</title>
+
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- load global first -->
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/toaster.css">
+  <link rel="stylesheet" href="./doctor_appointments.css">
+  </head>
+  <body>
+    <nav></nav>
+ 
+  
+ 
+  <section class="doctor-appointments-section py-5">
+      <div class="container">
+        <div class="appointments-wrapper">
+          <div class="appointments-header">
+            <div>
+              <span class="appointments-badge">الأوقات المتاحة</span>
+              <h1>مواعيدي المتاحة</h1>
+              <p>يمكنك تعديل أو حذف أي وقت متاح قمت بإضافته.</p>
+            </div>
+
+            <a
+              href="../add_appointment/add_appointment.html"
+              class="add-availability-btn"
+            >
+              <i class="fa-solid fa-plus"></i>
+              إضافة وقت متاح
+            </a>
+          </div>
+
+          <div id="accessMessage" class="access-message"></div>
+          <div id="appointmentsContainer" class="row g-4"></div>
+        </div>
+      </div>
+    </section>
+   
+
+    <footer></footer>
+
+    <!-- Update Availability Modal -->
+<div
+  class="modal fade"
+  id="editAvailabilityModal"
+  tabindex="-1"
+  aria-labelledby="editAvailabilityModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editAvailabilityModalLabel">
+          تعديل الوقت المتاح
+        </h5>
+        <button
+          type="button"
+          class="btn-close m-0"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="editAvailabilityForm">
+          <input type="hidden" id="editAvailabilityId" />
+
+          <div class="mb-3">
+            <label for="editDay" class="form-label">اليوم</label>
+            <select id="editDay" class="form-select" required>
+              <option value="">اختر اليوم</option>
+                        <option value="Saturday">السبت</option>
+                        <option value="Sunday">الأحد</option>
+                        <option value="Monday">الإثنين</option>
+                        <option value="Tuesday">الثلاثاء</option>
+                        <option value="Wednesday">الأربعاء</option>
+                        <option value="Thursday">الخميس</option>
+                        <option value="Friday">الجمعة</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="editStartTime" class="form-label">وقت البداية</label>
+            <input type="time" id="editStartTime" class="form-control" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editEndTime" class="form-label">وقت النهاية</label>
+            <input type="time" id="editEndTime" class="form-control" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editSessionDuration" class="form-label">مدة الجلسة</label>
+            <input
+              type="number"
+              id="editSessionDuration"
+              class="form-control"
+              min="5"
+              step="5"
+              required
+            />
+          </div>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="editIsActive"
+            />
+            <label class="form-check-label" for="editIsActive">
+              الوقت المتاح نشط
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+  <button
+    type="button"
+    class="modal-action-btn modal-cancel-btn"
+    data-bs-dismiss="modal"
+  >
+    إلغاء
+  </button>
+
+  <button
+    type="submit"
+    form="editAvailabilityForm"
+    class="modal-action-btn modal-save-btn"
+  >
+    حفظ التعديلات
+  </button>
+</div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  class="modal fade"
+  id="deleteAvailabilityModal"
+  tabindex="-1"
+  aria-labelledby="deleteAvailabilityModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal delete-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAvailabilityModalLabel">
+          تأكيد الحذف
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="delete-modal-icon">
+          <i class="fa-solid fa-trash-can"></i>
+        </div>
+        <p class="delete-modal-text">
+          هل أنت متأكد من حذف هذا الوقت المتاح؟
+        </p>
+        <p class="delete-modal-subtext">
+          لا يمكن التراجع عن هذا الإجراء بعد التنفيذ.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="modal-action-btn modal-cancel-btn"
+          data-bs-dismiss="modal"
+        >
+          إلغاء
+        </button>
+
+        <button
+          type="button"
+          class="modal-action-btn modal-delete-btn"
+          id="confirmDeleteAvailabilityBtn"
+        >
+          حذف
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module" src="../../../shared/js/footer.js"></script>
+<script type="module" src="../../../shared/js/navbar.js"></script>
+<script type="module" src="../../../shared/js/toaster.js"></script>
+<script type="module" src="./doctor_appointments.js"></script>
+  </body>
 </html>
