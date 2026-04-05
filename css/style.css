@@ -166,6 +166,10 @@ body{
   align-items: center;
   justify-content: center;
 }
+.logout-btn{
+  box-shadow: none;
+  border: none;
+}
 
 /* responsive */
 
@@ -188,7 +192,110 @@ body{
     font-size: 1rem;
   }
 }
+.navbar-auth-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
+.navbar-user-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.navbar-user-trigger:hover {
+  opacity: 0.9;
+}
+
+.navbar-user-trigger i {
+  font-size: 18px;
+  color: #fff;
+}
+
+.navbar-user-name {
+  white-space: nowrap;
+  color: #fff;
+}
+
+.dropdown-arrow {
+  font-size: 12px !important;
+}
+
+.navbar-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  padding: 8px;
+  display: none;
+  z-index: 1000;
+}
+
+.navbar-dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: none;
+  background: transparent;
+  color: #333;
+  text-decoration: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: right;
+}
+
+.dropdown-item:hover {
+  background: #f7f3ee;
+  color: var(--primary);
+}
+
+.dropdown-item i {
+  color: var(--primary);
+  font-size: 15px;
+}
+
+.dropdown-logout {
+  font-family: inherit;
+}
+
+@media (max-width: 992px) {
+  .navbar-auth-dropdown {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .navbar-user-trigger {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar-dropdown-menu {
+    right: 50%;
+    transform: translateX(50%);
+    width: 100%;
+    max-width: 260px;
+  }
+}
 @media (max-width: 991.98px) {
   .main-navbar {
     top: 20px;
@@ -204,14 +311,24 @@ body{
     display: inline-flex;
   }
 
-  .navbar-links-wrapper {
-    width: 100%;
-    display: none;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 18px;
-    padding-top: 16px;
-  }
+  .main-navbar .navbar-box {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar-links-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
   .navbar-links-wrapper.show {
     display: flex;
