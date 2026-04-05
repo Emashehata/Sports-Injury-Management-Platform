@@ -1,17 +1,12 @@
-// services/availability_services.js
 import { Availability } from "../shared/models/Availability.model.js";
 
 const BASE_URL = "https://medical-cca8b-default-rtdb.firebaseio.com";
 
 export async function addAvailability(data) {
   try {
-    // Create availability instance WITHOUT id (let Firebase generate it)
     const availability = new Availability(data);
-    
-    // Make sure id is null/undefined for new records
     const jsonData = availability.toJSON();
-    
-    // Remove id if it's null or undefined
+
     if (jsonData.id === null || jsonData.id === undefined) {
       delete jsonData.id;
     }
@@ -26,15 +21,13 @@ export async function addAvailability(data) {
 
     const result = await res.json();
 
-    // Firebase returns the generated ID as 'name'
     return {
       success: true,
       data: {
-        id: result.name,  // This is the Firebase-generated ID
+        id: result.name,
         ...jsonData
       }
     };
-
   } catch (error) {
     console.error(error);
     return {
@@ -53,11 +46,10 @@ export async function getAllAvailability() {
 
     return Object.entries(data).map(([key, value]) => {
       return new Availability({
-        id: key,  // Use Firebase key as ID
+        id: key,
         ...value
       });
     });
-
   } catch (error) {
     console.error(error);
     return [];
@@ -67,11 +59,11 @@ export async function getAllAvailability() {
 export async function getAvailabilityBySpecialist(specialistId) {
   try {
     const all = await getAllAvailability();
-    
-    return all.filter(
-      (availability) => availability.specialist_id === String(specialistId) && availability.is_active
-    );
 
+    return all.filter(
+      (availability) =>
+        String(availability.specialist_id) === String(specialistId)
+    );
   } catch (error) {
     console.error(error);
     return [];
@@ -81,16 +73,14 @@ export async function getAvailabilityBySpecialist(specialistId) {
 export async function getAvailabilityByDay(specialistId, day) {
   try {
     const all = await getAllAvailability();
-    
-    const result = all.find(
-      (availability) => 
-        String(availability.specialist_id) === String(specialistId) && 
-        availability.day === day &&
-        availability.is_active === true
-    );
-    
-    return result || null;
 
+    return (
+      all.find(
+        (availability) =>
+          String(availability.specialist_id) === String(specialistId) &&
+          availability.day === day
+      ) || null
+    );
   } catch (error) {
     console.error(error);
     return null;
@@ -99,9 +89,8 @@ export async function getAvailabilityByDay(specialistId, day) {
 
 export async function updateAvailability(id, updatedData) {
   try {
-    // For update, create a clean object without id
     const { id: _, ...cleanData } = updatedData;
-    
+
     const res = await fetch(`${BASE_URL}/availability/${id}.json`, {
       method: "PATCH",
       headers: {
@@ -115,11 +104,10 @@ export async function updateAvailability(id, updatedData) {
     return {
       success: true,
       data: {
-        id: id,
+        id,
         ...data
       }
     };
-
   } catch (error) {
     console.error(error);
     return {
@@ -138,7 +126,6 @@ export async function deleteAvailability(id) {
     return {
       success: true
     };
-
   } catch (error) {
     console.error(error);
     return {
@@ -148,7 +135,6 @@ export async function deleteAvailability(id) {
   }
 }
 
-// Get availability by ID
 export async function getAvailabilityById(id) {
   try {
     const res = await fetch(`${BASE_URL}/availability/${id}.json`);
@@ -157,10 +143,9 @@ export async function getAvailabilityById(id) {
     if (!data) return null;
 
     return new Availability({
-      id: id,
+      id,
       ...data
     });
-
   } catch (error) {
     console.error(error);
     return null;
