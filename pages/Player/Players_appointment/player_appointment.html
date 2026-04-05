@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مواعيدي</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/toaster.css">
+    <link rel="stylesheet" href="./player_appointment.css">
+  </head>
+  <body>
+    <nav></nav>
+
+    <section class="doctor-appointments-section py-5">
+      <div class="container">
+        <div class="appointments-wrapper">
+          <div class="appointments-header">
+            <div>
+              <span class="appointments-badge">المواعيد المحجوزة</span>
+              <h1>مواعيدي</h1>
+              <p>يمكنك متابعة مواعيدك وتعديلها أو حذفها بسهولة.</p>
+            </div>
+          </div>
+
+          <div id="accessMessage" class="access-message"></div>
+          <div id="appointmentsContainer" class="row g-4"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Edit Appointment Modal -->
+    <div
+      class="modal fade"
+      id="editAppointmentModal"
+      tabindex="-1"
+      aria-labelledby="editAppointmentModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editAppointmentModalLabel">
+              تعديل الموعد
+            </h5>
+            <button
+              type="button"
+              class="btn-close m-0"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <form id="editAppointmentForm">
+              <input type="hidden" id="editAppointmentId" />
+              <input type="hidden" id="editDoctorId" />
+
+              <div class="mb-3">
+  <label for="editAppointmentDate" class="form-label">التاريخ</label>
+  <select id="editAppointmentDate" class="form-select" required>
+    <option value="">اختر التاريخ</option>
+  </select>
+</div>
+
+              <div class="mb-3">
+                <label for="editAppointmentTime" class="form-label">الوقت</label>
+                <select id="editAppointmentTime" class="form-select" required>
+                  <option value="">اختر الوقت</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="editAppointmentStatus" class="form-label">الحالة</label>
+                <input
+                  type="text"
+                  id="editAppointmentStatus"
+                  class="form-control"
+                  disabled
+                />
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="modal-action-btn modal-cancel-btn"
+              data-bs-dismiss="modal"
+            >
+              إلغاء
+            </button>
+
+            <button
+              type="submit"
+              form="editAppointmentForm"
+              class="modal-action-btn modal-save-btn"
+            >
+              حفظ التعديلات
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Appointment Modal -->
+    <div
+      class="modal fade"
+      id="deleteAppointmentModal"
+      tabindex="-1"
+      aria-labelledby="deleteAppointmentModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal delete-modal">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteAppointmentModalLabel">
+              تأكيد الحذف
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="delete-modal-icon">
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <p class="delete-modal-text">
+              هل أنت متأكد من حذف هذا الموعد؟
+            </p>
+            <p class="delete-modal-subtext">
+              لا يمكن التراجع عن هذا الإجراء بعد التنفيذ.
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="modal-action-btn modal-cancel-btn"
+              data-bs-dismiss="modal"
+            >
+              إلغاء
+            </button>
+
+            <button
+              type="button"
+              class="modal-action-btn modal-delete-btn"
+              id="confirmDeleteAppointmentBtn"
+            >
+              حذف
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../../../shared/js/footer.js"></script>
+    <script type="module" src="../../../shared/js/navbar.js"></script>
+    <script type="module" src="../../../shared/js/toaster.js"></script>
+    <script type="module" src="./player_appointment.js"></script>
+  </body>
+</html>

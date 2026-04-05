@@ -1,6 +1,6 @@
 export class Specialist {
   constructor({
-    id = " ",
+    id= " ",
     qualification = " ",
     experience = 0,
     specialization = " ",

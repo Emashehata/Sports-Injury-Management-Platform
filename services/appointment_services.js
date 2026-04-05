@@ -1,6 +1,6 @@
-// services/appointment.service.js
+// services/appointment_services.js
 import { Appointment } from "../shared/models/Appointment.model.js";
-import { getAvailabilityByDay } from "./availability.service.js";
+import { getAvailabilityByDay } from "./availability_services.js";
 
 const BASE_URL = "https://medical-cca8b-default-rtdb.firebaseio.com";
 
@@ -16,35 +16,46 @@ export async function addAppointment(data) {
     if (!isAvailable) {
       return {
         success: false,
-        message: "This time slot is not available or already booked"
+        message: "هذا الوقت غير متاح أو محجوز بالفعل"
       };
     }
 
+    // Create appointment instance WITHOUT id (let Firebase generate it)
     const appointment = new Appointment(data);
+    
+    // Get the JSON and remove id if it's null
+    const jsonData = appointment.toJSON();
+    
+    // Make sure id is not sent to Firebase for new appointments
+    delete jsonData.id;
+
+    console.log("Sending to Firebase:", jsonData); // Debug log
 
     const res = await fetch(`${BASE_URL}/appointments.json`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(appointment.toJSON())
+      body: JSON.stringify(jsonData)
     });
 
     const result = await res.json();
+    console.log("Firebase response:", result); // Debug log
 
+    // Firebase returns the generated ID as 'name'
     return {
       success: true,
       data: {
-        id: result.name,
-        ...appointment.toJSON()
+        id: result.name,  // This is the Firebase-generated ID
+        ...jsonData
       }
     };
 
   } catch (error) {
-    console.error(error);
+    console.error("Error adding appointment:", error);
     return {
       success: false,
-      message: "Failed to add appointment"
+      message: "فشل في حجز الموعد"
     };
   }
 }
@@ -58,7 +69,7 @@ export async function getAllAppointments() {
 
     return Object.entries(data).map(([key, value]) => {
       return new Appointment({
-        id: key,
+        id: key,  // Use Firebase key as ID
         ...value
       });
     });
@@ -72,10 +83,16 @@ export async function getAllAppointments() {
 export async function getAppointmentsByPlayer(playerId) {
   try {
     const all = await getAllAppointments();
+    console.log("All appointments:", all); // Debug log
+    console.log("Filtering for player:", playerId); // Debug log
 
-    return all.filter(
-      (appointment) => appointment.player_id === playerId
+    const filtered = all.filter(
+      (appointment) => String(appointment.player_id) === String(playerId)
     );
+    
+    console.log("Filtered appointments:", filtered); // Debug log
+    
+    return filtered;
 
   } catch (error) {
     console.error(error);
@@ -88,7 +105,7 @@ export async function getAppointmentsBySpecialist(specialistId) {
     const all = await getAllAppointments();
 
     return all.filter(
-      (appointment) => appointment.specialist_id === specialistId
+      (appointment) => String(appointment.specialist_id) === String(specialistId)
     );
 
   } catch (error) {
@@ -125,6 +142,24 @@ export async function getAppointmentsByStatus(status) {
   }
 }
 
+export async function getAppointmentById(id) {
+  try {
+    const res = await fetch(`${BASE_URL}/appointments/${id}.json`);
+    const data = await res.json();
+
+    if (!data) return null;
+
+    return new Appointment({
+      id: id,
+      ...data
+    });
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 // Get booked time slots for a specific specialist on a specific date
 export async function getBookedTimeSlots(specialistId, date) {
   try {
@@ -133,7 +168,7 @@ export async function getBookedTimeSlots(specialistId, date) {
     const bookedSlots = all
       .filter(
         (appointment) => 
-          appointment.specialist_id === specialistId &&
+          String(appointment.specialist_id) === String(specialistId) &&
           appointment.date === date &&
           appointment.status !== "cancelled"
       )
@@ -152,26 +187,31 @@ export async function getAvailableTimeSlots(specialistId, date) {
   try {
     // Get the day of week from the date
     const dayOfWeek = new Date(date).toLocaleDateString('en-US', { weekday: 'long' });
+    console.log("Day of week:", dayOfWeek);
     
     // Get specialist's availability for that day
     const availability = await getAvailabilityByDay(specialistId, dayOfWeek);
+    console.log("Availability found:", availability);
     
     if (!availability) {
       return {
         success: false,
         message: "No availability found for this specialist on this day",
-        slots: []
+        availableSlots: []
       };
     }
     
     // Generate all possible time slots from availability
     const allTimeSlots = availability.generateTimeSlots();
+    console.log("All time slots:", allTimeSlots);
     
     // Get already booked slots
     const bookedSlots = await getBookedTimeSlots(specialistId, date);
+    console.log("Booked slots:", bookedSlots);
     
     // Filter out booked slots
     const availableSlots = allTimeSlots.filter(slot => !bookedSlots.includes(slot));
+    console.log("Available slots:", availableSlots);
     
     return {
       success: true,
@@ -182,11 +222,11 @@ export async function getAvailableTimeSlots(specialistId, date) {
     };
     
   } catch (error) {
-    console.error(error);
+    console.error("Error in getAvailableTimeSlots:", error);
     return {
       success: false,
       message: "Failed to get available time slots",
-      slots: []
+      availableSlots: []
     };
   }
 }
@@ -220,45 +260,60 @@ export async function checkTimeSlotAvailability(specialistId, date, time) {
 
 export async function updateAppointment(id, updatedData) {
   try {
+    // For update, don't send the id in the body
+    const { id: _, ...cleanData } = updatedData;
+    
     const res = await fetch(`${BASE_URL}/appointments/${id}.json`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(updatedData)
+      body: JSON.stringify(cleanData)
     });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
 
     const data = await res.json();
 
     return {
       success: true,
-      data
+      data: {
+        id: id,
+        ...data
+      }
     };
 
   } catch (error) {
-    console.error(error);
+    console.error("Error updating appointment:", error);
     return {
       success: false,
-      message: "Failed to update appointment"
+      message: "فشل تعديل الموعد"
     };
   }
 }
 
 export async function deleteAppointment(id) {
   try {
-    await fetch(`${BASE_URL}/appointments/${id}.json`, {
+    const res = await fetch(`${BASE_URL}/appointments/${id}.json`, {
       method: "DELETE"
     });
 
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
     return {
-      success: true
+      success: true,
+      message: "تم حذف الموعد بنجاح"
     };
 
   } catch (error) {
-    console.error(error);
+    console.error("Error deleting appointment:", error);
     return {
       success: false,
-      message: "Failed to delete appointment"
+      message: "فشل حذف الموعد"
     };
   }
 }
