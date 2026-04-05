@@ -1,31 +1,26 @@
-function getBasePath() {
-  const path = window.location.pathname.toLowerCase();
+const BASE_PATH = "/";
 
-  if (path.includes("/pages/")) {
-    return "../../";
-  }
-
-  return "./";
+function buildPath(relativePath = "") {
+  return `${BASE_PATH}${relativePath}`.replace(/([^:]\/)\/+/g, "$1");
 }
 
 function renderFooter() {
   const footer = document.querySelector("footer");
   if (!footer) return;
 
-  const base = getBasePath();
   const year = new Date().getFullYear();
 
   footer.className = "main-footer";
 
   footer.innerHTML = `
-    <img src="${base}assets/images/footer_bg.png" alt="" class="footer-bg-circles">
+    <img src="${buildPath("assets/images/footer_bg.png")}" alt="" class="footer-bg-circles">
 
     <div class="container">
       <div class="footer-top">
 
         <div class="footer-brand-col">
-          <a href="${base}pages/Home/home.html" class="footer-brand">
-            <img src="${base}assets/images/logosport.png" alt="SportCare Logo" class="footer-logo">
+          <a href="${buildPath("pages/Home/home.html")}" class="footer-brand">
+            <img src="${buildPath("assets/images/logosport.png")}" alt="SportCare Logo" class="footer-logo">
             <span class="footer-brand-name">SportCare</span>
           </a>
 
@@ -59,11 +54,11 @@ function renderFooter() {
         <div class="footer-links-col">
           <h4 class="footer-title">نظرة عامة</h4>
           <ul class="footer-links">
-            <li><a href="${base}pages/Home/home.html">الرئيسية</a></li>
-            <li><a href="${base}pages/About_us/about_us.html">من نحن</a></li>
-            <li><a href="${base}pages/services/services.html">الخدمات</a></li>
-            <li><a href="${base}pages/injuries/injuries.html">الإصابات</a></li>
-            <li><a href="${base}pages/contact_us/contact_us.html">تواصل معنا</a></li>
+            <li><a href="${buildPath("pages/Home/home.html")}">الرئيسية</a></li>
+            <li><a href="${buildPath("pages/About_us/about_us.html")}">من نحن</a></li>
+            <li><a href="${buildPath("pages/services/services.html")}">الخدمات</a></li>
+            <li><a href="${buildPath("pages/injuries/injuries.html")}">الإصابات</a></li>
+            <li><a href="${buildPath("pages/contact_us/contact_us.html")}">تواصل معنا</a></li>
           </ul>
         </div>
 
@@ -91,7 +86,6 @@ function renderFooter() {
       </div>
 
       <div class="footer-bottom">
-         
         <p class="footer-copy">جميع الحقوق محفوظة لمنصة © ${year} SportCare</p>
 
         <div class="footer-social">

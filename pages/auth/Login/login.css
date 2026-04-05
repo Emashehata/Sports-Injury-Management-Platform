@@ -299,3 +299,28 @@ body {
     margin-bottom: 22px;
   }
 }
+
+.back-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 10px 16px;
+  background:#fff;
+  color: var(--primary);
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: 0.3s ease;
+  margin-top: 30px;
+   justify-content: center;
+}
+
+.back-home-btn:hover {
+  background:#fff;
+  color: var(--primary);
+}
+
+.back-home-btn i {
+  font-size: 14px;
+}

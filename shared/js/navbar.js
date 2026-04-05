@@ -1,22 +1,127 @@
-function getBasePath() {
-  const path = window.location.pathname.toLowerCase();
+const BASE_PATH = "/";
 
-  if (path.includes("/pages/")) {
-    return "../../";
-  }
+const STORAGE_KEYS = {
+  CURRENT_USER: "currentUser"
+};
 
-  return "./";
+function buildPath(relativePath = "") {
+  return `${BASE_PATH}${relativePath}`.replace(/([^:]\/)\/+/g, "$1");
 }
 
 function normalizePath(path) {
   return path.toLowerCase().replace(/\/+$/, "");
 }
 
+function getCurrentUser() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.CURRENT_USER));
+  } catch {
+    return null;
+  }
+}
+
+function logout() {
+  localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+  window.location.href = buildPath("pages/auth/Login/login.html");
+}
+
+function getUserType(user) {
+  return user?.user_type?.toLowerCase() || "";
+}
+
+function getRoleBasedLink(user) {
+  const userType = getUserType(user);
+
+  if (userType === "player") {
+    return `
+      <li>
+        <a href="${buildPath("pages/Player/Players_appointment/player_appointment.html")}">
+          مواعيدي
+        </a>
+      </li>
+    `;
+  }
+
+  if (userType === "specialist" || userType === "specilist") {
+    return `
+      <li>
+        <a href="${buildPath("pages/Specialists/Doctor_appointments/doctor_appointments.html")}">
+          مواعيد الأخصائي
+        </a>
+      </li>
+    `;
+  }
+
+  return "";
+}
+
+function getProfilePath(user) {
+  const userType = getUserType(user);
+
+  if (userType === "player") {
+    return buildPath("pages/Player/profile/profile.html");
+  }
+
+  if (userType === "specialist" || userType === "specilist") {
+    return buildPath("pages/Specialist/profile/profile.html");
+  }
+
+  return buildPath("pages/Home/home.html");
+}
+
+function getAuthSection(user) {
+  if (user) {
+    return `
+      <div class="navbar-auth-dropdown">
+        <button class="navbar-user-trigger" id="userMenuBtn" type="button" aria-label="قائمة المستخدم">
+          <i class="fa-solid fa-circle-user"></i>
+          <span class="navbar-user-name">${user.name || "User"}</span>
+          <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+        </button>
+
+        <div class="navbar-dropdown-menu" id="userDropdownMenu">
+          <a href="${getProfilePath(user)}" class="dropdown-item">
+            <i class="fa-regular fa-user"></i>
+            <span>الملف الشخصي</span>
+          </a>
+          <button class="dropdown-item dropdown-logout" id="logoutBtn" type="button">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>تسجيل الخروج</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+     <div class="navbar-auth-dropdown">
+    <button class="navbar-user-trigger" id="userMenuBtn" type="button" aria-label="قائمة الحساب">
+      <i class="fa-solid fa-circle-user"></i>
+      <span class="navbar-user-name">حسابي</span>
+      <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+    </button>
+
+    <div class="navbar-dropdown-menu" id="userDropdownMenu">
+      <a href="${buildPath("pages/auth/Login/login.html")}" class="dropdown-item">
+        <i class="fa-solid fa-right-to-bracket"></i>
+        <span>تسجيل الدخول</span>
+      </a>
+      <a href="${buildPath("pages/auth/Register/register.html")}" class="dropdown-item">
+        <i class="fa-solid fa-user-plus"></i>
+        <span>إنشاء حساب</span>
+      </a>
+    </div>
+  </div>
+  `;
+}
+
 function renderNavbar() {
   const nav = document.querySelector("nav");
   if (!nav) return;
 
-  const base = getBasePath();
+  const currentUser = getCurrentUser();
+  const roleLink = getRoleBasedLink(currentUser);
+  const authSection = getAuthSection(currentUser);
 
   nav.className = "main-navbar";
 
@@ -24,11 +129,11 @@ function renderNavbar() {
     <div class="container">
       <div class="navbar-box">
 
-        <a href="${base}pages/Home/home.html" class="navbar-brand">
-          <img src="${base}assets/images/logosport.png" alt="شعار المنصة" class="navbar-logo">
+        <a href="${buildPath("pages/Home/home.html")}" class="navbar-brand">
+          <img src="${buildPath("assets/images/logosport.png")}" alt="شعار المنصة" class="navbar-logo">
           <div class="navbar-brand-text">
             <span class="brand-title">SportCare</span>
-            <span class="brand-subtitle">إدارة الإصابات الرياضية</span>
+            <span class="brand-subtitle">تأهيل حركي مصر</span>
           </div>
         </a>
 
@@ -36,18 +141,19 @@ function renderNavbar() {
           <i class="fa-solid fa-bars"></i>
         </button>
 
-        <div class="navbar-links-wrapper">
-          <ul class="navbar-links">
-            <li><a href="${base}pages/Home/home.html">الرئيسية</a></li>
-            <li><a href="${base}pages/About_us/about_us.html">من نحن</a></li>
-            <li><a href="${base}pages/services/services.html">الخدمات</a></li>
-            <li><a href="${base}pages/injuries/injuries.html">الإصابات</a></li>
-            <li><a href="${base}pages/doctors/doctors.html">الفريق الطبي</a></li>
-            <li><a href="${base}pages/contact_us/contact_us.html">تواصل معنا</a></li>
-          </ul>
+         <div class="navbar-links-wrapper">
+  <ul class="navbar-links">
+    <li><a href="${buildPath("pages/Home/home.html")}">الرئيسية</a></li>
+    <li><a href="${buildPath("pages/About_us/about_us.html")}">من نحن</a></li>
+    <li><a href="${buildPath("pages/Specialists/specialist.html")}">الفريق الطبي</a></li>
+    <li><a href="${buildPath("pages/contact_us/contact_us.html")}">تواصل معنا</a></li>
+    ${roleLink}
+  </ul>
+</div>
 
-          <a href="${base}pages/contact_us/contact_us.html" class="navbar-btn">احجز استشارة</a>
-        </div>
+<div class="navbar-actions">
+  ${authSection}
+</div>
       </div>
     </div>
   `;
@@ -59,6 +165,28 @@ function renderNavbar() {
     linksWrapper.classList.toggle("show");
   });
 
+  const userMenuBtn = nav.querySelector("#userMenuBtn");
+  const userDropdownMenu = nav.querySelector("#userDropdownMenu");
+  const logoutBtn = nav.querySelector("#logoutBtn");
+
+  userMenuBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    userDropdownMenu?.classList.toggle("show");
+  });
+
+  logoutBtn?.addEventListener("click", logout);
+
+  document.addEventListener("click", (e) => {
+    if (
+      userDropdownMenu &&
+      userMenuBtn &&
+      !userMenuBtn.contains(e.target) &&
+      !userDropdownMenu.contains(e.target)
+    ) {
+      userDropdownMenu.classList.remove("show");
+    }
+  });
+
   setActiveLink(nav);
 }
 
@@ -67,7 +195,7 @@ function setActiveLink(nav) {
   const navLinks = nav.querySelectorAll(".navbar-links a");
 
   navLinks.forEach(link => {
-    const linkPath = normalizePath(new URL(link.href, window.location.origin).pathname);
+    const linkPath = normalizePath(new URL(link.href).pathname);
 
     if (currentPath === linkPath) {
       link.classList.add("active");
