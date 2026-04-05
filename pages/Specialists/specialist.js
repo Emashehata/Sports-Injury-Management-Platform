@@ -32,7 +32,7 @@ import { getAllDoctors } from '../../../services/specialist_services.js';
                 <span>${doctor.clinic_address}</span>
               </div>
             </div>
-            <a href="appointment.html?doctorId=${doctor.id}" class="btn-appointment">احجز موعد</a>
+            <a href="../Player/add_appointment/add_appointment.html?doctorId=${doctor.id}" class="btn-appointment">احجز موعد</a>
           </div>
         </div>
       </div>

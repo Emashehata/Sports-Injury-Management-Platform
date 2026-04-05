@@ -1,0 +1,257 @@
+body {
+  font-family: "Cairo", sans-serif;
+  background: var(--gray-150);
+  color: var(--text-main);
+}
+
+.availability-section {
+  padding: 70px 0;
+  margin-top: 70px;
+}
+
+.availability-wrapper {
+  background: var(--white);
+  border-radius: 32px;
+  overflow: hidden;
+  border: 1px solid var(--gray-300);
+  box-shadow: 0 20px 50px rgba(3, 98, 86, 0.08);
+}
+
+/* الجزء اليمين */
+.availability-side {
+  height: 100%;
+  min-height: 100%;
+  background: var(--primary-dark);
+  color: var(--white);
+  padding: 60px 42px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.availability-badge {
+  display: inline-block;
+  width: fit-content;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 24px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.availability-side h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 18px;
+  color: var(--white);
+}
+
+.availability-side p {
+  font-size: 1.05rem;
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 34px;
+}
+
+.availability-side-points {
+  display: grid;
+  gap: 18px;
+}
+
+.side-point {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.icon-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  flex-shrink: 0;
+}
+
+/* الفورم */
+.availability-form-box {
+  padding: 60px 48px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--white);
+}
+
+.availability-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.availability-header h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+}
+
+.availability-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.form-label {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.custom-input-group {
+  border: 1px solid var(--gray-300);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--white);
+  transition: 0.3s ease;
+}
+
+.custom-input-group:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-soft);
+}
+
+.custom-input-group .input-group-text {
+  background: var(--white);
+  border: none;
+  color: var(--text-muted);
+  padding: 0 18px;
+}
+
+.custom-input-group .form-control,
+.custom-input-group select.form-control {
+  border: none;
+  box-shadow: none;
+  padding: 16px 14px;
+  font-size: 1rem;
+  color: var(--text-main);
+  background: var(--white);
+}
+
+.custom-input-group .form-control::placeholder {
+  color: var(--gray-600);
+}
+
+.custom-check .form-check-input {
+  box-shadow: none;
+  border-color: var(--gray-500);
+}
+
+.custom-check .form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.custom-check .form-check-label {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.availability-btn {
+  width: 100%;
+  border: none;
+  border-radius: 18px;
+  background: var(--primary);
+  color: var(--white);
+  padding: 16px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  transition: 0.3s ease;
+}
+
+.availability-btn:hover {
+  background: var(--primary-hover);
+}
+
+.form-message {
+  margin-top: 16px;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.form-message.success {
+  background: rgba(25, 135, 84, 0.08);
+  color: #198754;
+}
+
+.form-message.error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+@media (max-width: 991.98px) {
+  .availability-side,
+  .availability-form-box {
+    padding: 36px 24px;
+  }
+
+  .availability-header h2 {
+    font-size: 2rem;
+  }
+
+  .availability-side h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .availability-section {
+    padding: 30px 0;
+  }
+
+  .availability-wrapper {
+    border-radius: 24px;
+  }
+
+  .availability-side {
+    padding: 24px 20px;
+  }
+
+  .availability-side h1 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .availability-side p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .availability-side-points {
+    gap: 10px;
+  }
+
+  .availability-form-box {
+    padding: 26px 20px;
+  }
+
+  .availability-header h2 {
+    font-size: 1.7rem;
+  }
+
+  .availability-header p {
+    font-size: 0.95rem;
+  }
+}

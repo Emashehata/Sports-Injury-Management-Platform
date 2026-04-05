@@ -98,7 +98,7 @@ loginForm.addEventListener("submit", async (e) => {
 
     setTimeout(() => {
       if (foundUser.user_type === "specialist" || foundUser.user_type === "player") {
-        window.location.href = "../Home/home.html";
+        window.location.href = "../../Specialists/specialist.html";
       } else {
         window.location.href = "../../index.html";
       }
