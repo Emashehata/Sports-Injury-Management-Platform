@@ -1,0 +1,269 @@
+body {
+  font-family: "Cairo", sans-serif;
+  background: var(--gray-150);
+  color: var(--text-main);
+}
+
+.appointment-page {
+  padding-top: 120px !important;
+  margin-top: 70px;
+}
+
+.appointment-card {
+  background: var(--gray-300);
+  border-radius: 42px;
+  padding: 34px 40px 26px;
+  box-shadow: 0 12px 32px rgba(3, 98, 86, 0.08);
+  overflow: hidden;
+}
+
+.doctor-info-card {
+  text-align: center;
+  padding: 10px 18px;
+}
+
+.doctor-image-wrap {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  border: 6px solid rgba(255, 255, 255, 0.55);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doctor-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.doctor-name {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.doctor-about {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+
+.doctor-meta {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.doctor-meta li {
+  font-size: 1rem;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  line-height: 1.8;
+}
+
+.booking-content {
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.booking-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 30px;
+}
+
+.section-main-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+}
+
+.booking-section {
+  margin-bottom: 34px;
+}
+
+.days-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.day-btn {
+  min-width: 112px;
+  min-height: 78px;
+  border-radius: 26px;
+  border: 1.5px solid var(--gray-600);
+  background: var(--gray-100);
+  color: var(--gray-700);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 14px;
+  transition: 0.25s ease;
+  font-family: inherit;
+}
+
+.day-btn .day-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.day-btn .day-date {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.day-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.day-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--white);
+  box-shadow: 0 8px 18px rgba(3, 98, 86, 0.12);
+}
+
+.times-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  min-height: 80px;
+}
+
+.time-btn {
+  min-width: 150px;
+  height: 50px;
+  border-radius: 999px;
+  border: 1.7px solid var(--primary);
+  background: var(--gray-100);
+  color: var(--primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
+  transition: 0.25s ease;
+}
+
+.time-btn:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.time-btn.active {
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: 0 10px 20px rgba(3, 98, 86, 0.2);
+}
+
+.book-btn {
+  width: 100%;
+  max-width: 520px;
+  height: 56px;
+  border: none;
+  border-radius: 14px;
+  background: var(--gray-200);
+  color: var(--gray-500);
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: inherit;
+  transition: 0.25s ease;
+}
+
+.book-btn:not(:disabled) {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.book-btn:not(:disabled):hover {
+  background: var(--primary-hover);
+}
+
+.empty-times,
+.loading-text,
+.empty-message {
+  width: 100%;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+@media (max-width: 991.98px) {
+  .appointment-card {
+    padding: 26px 20px;
+    border-radius: 28px;
+  }
+
+  .booking-title {
+    font-size: 2rem;
+  }
+
+  .doctor-name {
+    font-size: 1.9rem;
+  }
+
+  .section-main-title {
+    font-size: 1.5rem;
+  }
+
+  .doctor-image-wrap {
+    width: 105px;
+    height: 105px;
+  }
+
+  .doctor-about {
+    font-size: 1.05rem;
+  }
+
+  .doctor-meta li {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .days-list,
+  .times-list {
+    gap: 12px;
+  }
+
+  .day-btn {
+    min-width: 92px;
+    min-height: 70px;
+    border-radius: 22px;
+  }
+
+  .day-btn .day-name {
+    font-size: 0.88rem;
+  }
+
+  .day-btn .day-date {
+    font-size: 0.82rem;
+  }
+
+  .time-btn {
+    min-width: 130px;
+    height: 48px;
+    font-size: 0.9rem;
+  }
+
+  .book-btn {
+    font-size: 1.2rem;
+  }
+}

@@ -37,24 +37,66 @@ export class Availability {
     return json;
   }
 
-  // Generate time slots based on availability
-  generateTimeSlots() {
-    const slots = [];
-    const start = this.parseTime(this.start_time);
-    const end = this.parseTime(this.end_time);
-    const duration = this.session_duration;
-    
-    let current = start;
-    while (current < end) {
-      const slotEnd = new Date(current.getTime() + duration * 60000);
-      if (slotEnd <= end) {
-        slots.push(this.formatTime(current));
-      }
-      current = slotEnd;
-    }
-    
+  // In Availability model
+generateTimeSlots() {
+  const slots = [];
+  const start = this.parseTime(this.start_time);
+  const end = this.parseTime(this.end_time);
+  const duration = this.session_duration;
+  
+  if (!start || !end) {
+    console.error("Invalid start or end time");
     return slots;
   }
+  
+  let current = start;
+  while (current < end) {
+    const slotEnd = new Date(current.getTime() + duration * 60000);
+    if (slotEnd <= end) {
+      // Return in 24-hour format for consistency
+      const hours = current.getHours();
+      const minutes = current.getMinutes();
+      const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+      slots.push(timeStr);
+    }
+    current = slotEnd;
+  }
+  
+  console.log("Generated time slots:", slots); // Debug log
+  return slots;
+}
+
+parseTime(timeStr) {
+  if (!timeStr) return null;
+  
+  // Handle 24-hour format (from input type="time" or stored)
+  if (typeof timeStr === 'string' && timeStr.match(/^\d{1,2}:\d{2}$/)) {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }
+  
+  // Handle 12-hour format with AM/PM
+  if (typeof timeStr === 'string' && (timeStr.includes('ص') || timeStr.includes('م') || timeStr.includes('AM') || timeStr.includes('PM'))) {
+    let cleanTime = timeStr;
+    let isPM = cleanTime.includes('م') || cleanTime.includes('PM');
+    cleanTime = cleanTime.replace(/[صم]/g, '').replace(/AM|PM/gi, '').trim();
+    
+    let [hours, minutes] = cleanTime.split(':').map(Number);
+    if (isNaN(minutes)) minutes = 0;
+    
+    if (isPM && hours !== 12) hours += 12;
+    if (!isPM && hours === 12) hours = 0;
+    
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }
+  
+  console.error("Cannot parse time:", timeStr);
+  return null;
+}
 
   parseTime(timeStr) {
     // Handle 24-hour format (from input type="time")

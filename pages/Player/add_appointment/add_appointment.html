@@ -1,29 +1,84 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>حجز موعد</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- load global first -->
-  <link rel="stylesheet" href="../../../css/style.css">
-  <link rel="stylesheet" href="./add_appointment.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <link rel="stylesheet" href="../../../css/style.css" />
+  <link rel="stylesheet" href="./add_appointment.css" />
+  <link rel="stylesheet" href="../../../css/toaster.css">
 </head>
 <body>
   <nav></nav>
-   
- 
 
-<footer></footer>
-<script type="module" src="../../../shared/js/footer.js"></script>
-<script type="module" src="../../../shared/js/navbar.js"></script>
-<script type="module" src="./add_appointment.js"></script>
+  <section class="appointment-page py-5">
+    <div class="container">
+      <div class="appointment-card">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-4">
+            <div class="doctor-info-card">
+              <div class="doctor-image-wrap">
+                <img id="doctorImage" src="" alt="Doctor Image" />
+              </div>
+
+              <h2 id="doctorName" class="doctor-name">اسم الطبيب</h2>
+
+              <div class="doctor-about">
+                <span class="doctor-about-icon">
+                  <i class="fa-regular fa-file-lines"></i>
+                </span>
+                <span>عن الطبيب</span>
+              </div>
+
+              <ul class="doctor-meta">
+                <li id="doctorSpecialization">التخصص</li>
+                <li id="doctorQualification">المؤهل</li>
+                <li id="doctorClinic">عنوان العيادة</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="booking-content">
+              <h1 class="booking-title">اختيار ميعاد الحجز</h1>
+
+              <div class="booking-section">
+                <h3 class="booking-subtitle section-main-title">اليوم</h3>
+                <div id="daysContainer" class="days-list">
+                  <p class="empty-times">جاري تحميل الأيام...</p>
+                </div>
+              </div>
+
+              <div class="booking-section">
+                <h3 class="booking-subtitle section-main-title">الوقت</h3>
+                <div id="timesContainer" class="times-list">
+                  <p class="empty-times">اختار اليوم أولاً لعرض الأوقات المتاحة</p>
+                </div>
+              </div>
+
+              <button id="bookBtn" class="book-btn" disabled>
+                حجز موعد
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer></footer>
+
+  <script type="module" src="../../../shared/js/footer.js"></script>
+  <script type="module" src="../../../shared/js/navbar.js"></script>
+  <script type="module" src="../../../shared/js/toaster.js"></script>
+  <script type="module" src="./add_appointment.js"></script>
 </body>
 </html>

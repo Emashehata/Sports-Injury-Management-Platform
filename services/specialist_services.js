@@ -54,12 +54,25 @@ export async function getAllSpecialists() {
     return [];
   }
 }
+// services/specialist_services.js - Fix getSpecialistById
 export async function getSpecialistById(id) {
   try {
+    console.log("Fetching specialist from Firebase:", `${BASE_URL}/specialists/${id}.json`);
+    
     const res = await fetch(`${BASE_URL}/specialists/${id}.json`);
+    
+    if (!res.ok) {
+      console.log("Response not OK:", res.status);
+      return null;
+    }
+    
     const data = await res.json();
+    console.log("Specialist data from Firebase:", data);
 
-    if (!data) return null;
+    if (!data) {
+      console.log("No data found for specialist ID:", id);
+      return null;
+    }
 
     return new Specialist({
       id,
@@ -67,7 +80,7 @@ export async function getSpecialistById(id) {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Error in getSpecialistById:", error);
     return null;
   }
 }
@@ -176,37 +189,49 @@ export async function getAllDoctors() {
   }
 }
 
+// services/specialist_services.js - Fix getDoctorById
 export async function getDoctorById(id) {
   try {
+    console.log("Fetching doctor with ID:", id);
+    
+    // First get the specialist data
     const specialist = await getSpecialistById(id);
+    console.log("Specialist data:", specialist);
     
     if (!specialist) {
+      console.log("No specialist found for ID:", id);
       return null;
     }
     
+    // Then get the user data
     const userResponse = await getUserById(id);
+    console.log("User response:", userResponse);
     
     if (!userResponse.success || userResponse.data?.user_type !== "specialist") {
+      console.log("User not found or not a specialist");
       return null;
     }
     
     const user = userResponse.data;
     
-    return {
+    const doctorData = {
       id: user.id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      imgPath: user.imgPath,
+      name: user.name || "غير محدد",
+      email: user.email || "",
+      phone: user.phone || "",
+      imgPath: user.imgPath || "",
       user_type: user.user_type,
-      specialization: specialist.specialization,
-      experience: specialist.experience,
-      qualification: specialist.qualification,
-      clinic_address: specialist.clinic_address
+      specialization: specialist.specialization || "غير محدد",
+      experience: specialist.experience || "",
+      qualification: specialist.qualification || "غير محدد",
+      clinic_address: specialist.clinic_address || "غير محدد"
     };
     
+    console.log("Final doctor data:", doctorData);
+    return doctorData;
+    
   } catch (error) {
-    console.error(error);
+    console.error("Error in getDoctorById:", error);
     return null;
   }
 }
