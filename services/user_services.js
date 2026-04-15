@@ -270,3 +270,39 @@ export async function searchUsers(keyword) {
     };
   }
 }
+
+
+export function getCurrentUser() {
+  const stored = localStorage.getItem('currentUser');
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
+}
+export function isAdmin() {
+  const user = getCurrentUser();
+  return user && (user.userType === 'admin' || user.user_type === 'admin');
+}
+export function isPlayer() {
+  const user = getCurrentUser();
+  return user && (user.userType === 'player' || user.user_type === 'player');
+}
+export function isSpecialist() {
+  const user = getCurrentUser();
+  return user && (user.userType === 'specialist' || user.user_type === 'specialist');
+}
+export function logout() {
+  localStorage.removeItem('currentUser');
+  window.location.href = '/index.html';
+}
+export function requireAdmin() {
+  if (!isAdmin()) {
+    window.location.href = '/index.html';
+    return false;
+  }
+  return true;
+}

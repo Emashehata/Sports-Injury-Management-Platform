@@ -43,6 +43,19 @@ togglePassword.addEventListener("click", () => {
   input.addEventListener("input", clearMessage);
 });
 
+function getRedirectUrl(userType) {
+  switch (userType) {
+    case "admin":
+      return "../../../dashboard/Home/home.html";
+    case "specialist":  
+        return "../../Specialists/specialist.html";
+    case "player":
+     return "../../Specialists/specialist.html";
+    default:
+      return "../../index.html";
+  }
+}
+
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   clearMessage();
@@ -86,7 +99,16 @@ loginForm.addEventListener("submit", async (e) => {
       return;
     }
 
-    localStorage.setItem("currentUser", JSON.stringify(foundUser));
+    const userData = {
+      id: foundUser.id,
+      name: foundUser.name || foundUser.full_name || "مستخدم",
+      email: foundUser.email,
+      userType: foundUser.user_type || foundUser.userType || "player", // admin / specialist / player
+      image: foundUser.image || foundUser.profile_image || "",
+      phone: foundUser.phone || "",
+    };
+    
+    localStorage.setItem("currentUser", JSON.stringify(userData));
 
     if (rememberMe) {
       localStorage.setItem("rememberedEmail", email);
@@ -97,12 +119,10 @@ loginForm.addEventListener("submit", async (e) => {
     showMessage("تم تسجيل الدخول بنجاح", "success");
 
     setTimeout(() => {
-      if (foundUser.user_type === "specialist" || foundUser.user_type === "player") {
-        window.location.href = "../../Specialists/specialist.html";
-      } else {
-        window.location.href = "../../index.html";
-      }
+      const redirectUrl = getRedirectUrl(userData.userType);
+      window.location.href = redirectUrl;
     }, 1000);
+    
   } catch (error) {
     console.error(error);
     showMessage("حدث خطأ غير متوقع أثناء تسجيل الدخول", "error");
@@ -117,5 +137,14 @@ window.addEventListener("DOMContentLoaded", () => {
   if (rememberedEmail) {
     emailInput.value = rememberedEmail;
     rememberMeInput.checked = true;
+  }
+  
+  const currentUser = localStorage.getItem("currentUser");
+  if (currentUser) {
+    try {
+      const user = JSON.parse(currentUser);
+      // اختياري: التحويل التلقائي لو دخل على صفحة login وهو already logged in
+      // window.location.href = getRedirectUrl(user.userType);
+    } catch (e) {}
   }
 });
