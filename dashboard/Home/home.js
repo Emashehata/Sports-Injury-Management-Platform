@@ -1,6 +1,7 @@
 
         import { createSidebar, initSidebar, setupMobileSidebar } from '../../shared/js/sidebar.js';
         import { getAllNews } from '../../services/news_services.js';
+         import { requireAdmin, getCurrentUser } from '../../services/user_services.js';
         
         // Show toast function using your existing toaster
         function showToast(message, type = 'info') {
@@ -10,8 +11,13 @@
                 console.log(`[${type}] ${message}`);
             }
         }
-        
-        // Initialize sidebar
+           
+        if (!requireAdmin()) {
+        window.location.href = '../../index.html';
+       }
+    
+        console.log('مرحباً أدمن:', getCurrentUser()?.name);
+
         document.getElementById('sidebar-container').innerHTML = createSidebar('dashboard');
         initSidebar();
         setupMobileSidebar();
