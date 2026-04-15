@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - منصة الإصابات الرياضية</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/admin-style.css">
+    
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 992px) {
+            body.sidebar-open {
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <div id="sidebar-container"></div>
+        
+        <main class="admin-main">
+            <button class="sidebar-toggle-btn" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <div class="page-header">
+                <h2>
+                    <i class="fa-solid fa-chart-line" style="color: var(--primary);"></i> 
+                    مرحباً بك في لوحة التحكم
+                </h2>
+                <div class="current-date" id="currentDate"></div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">إجمالي الأخبار</span>
+                        <i class="fa-solid fa-newspaper"></i>
+                    </div>
+                    <h3 class="stat-value" id="totalNews">0</h3>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">الإصابات النشطة</span>
+                        <i class="fa-solid fa-futbol"></i>
+                    </div>
+                    <h3 class="stat-value" id="activeInjuries">0</h3>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">اللاعبين</span>
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="stat-value" id="totalPlayers">0</h3>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">الأخصائيين</span>
+                        <i class="fa-solid fa-user-md"></i>
+                    </div>
+                    <h3 class="stat-value" id="totalSpecialists">0</h3>
+                </div>
+            </div>
+            
+            <div class="recent-section">
+                <div class="section-card">
+                    <h4 class="section-title">
+                        <i class="fa-solid fa-newspaper" style="color: var(--primary);"></i> 
+                        آخر الأخبار
+                    </h4>
+                    <div id="recentNewsList">
+                        <div class="loading-placeholder">
+                            <i class="fa-solid fa-spinner fa-pulse"></i>
+                            جاري التحميل...
+                        </div>
+                    </div>
+                    <a href="news-manager.html" class="view-all-link">
+                        إدارة الأخبار
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                </div>
+                
+                <div class="section-card">
+                    <h4 class="section-title">
+                        <i class="fa-solid fa-futbol" style="color: var(--primary);"></i> 
+                        آخر الإصابات
+                    </h4>
+                    <div id="recentInjuriesList">
+                        <div class="loading-placeholder">
+                            <i class="fa-solid fa-spinner fa-pulse"></i>
+                            جاري التحميل...
+                        </div>
+                    </div>
+                    <a href="injuries-manager.html" class="view-all-link">
+                        إدارة الإصابات
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h4 class="section-title">
+                    <i class="fa-solid fa-chart-line" style="color: var(--primary);"></i>
+                    إحصائيات الإصابات الشهرية
+                </h4>
+                <canvas id="injuriesChart" height="100"></canvas>
+            </div>
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="./home.js"></script>
+</body>
+</html>

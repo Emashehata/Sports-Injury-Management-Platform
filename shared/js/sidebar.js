@@ -2,7 +2,7 @@ export function createSidebar(activePage = 'dashboard') {
   return `
     <div class="admin-sidebar">
       <div class="sidebar-header">
-        <img src="../../assets/images/logo.png" alt="Logo" class="sidebar-logo" onerror="this.src='https://via.placeholder.com/70'">
+        <img src="../../assets/images/logosport.png" alt="Logo" class="sidebar-logo" onerror="this.src='https://via.placeholder.com/70'">
         <h3>لوحة التحكم</h3>
       </div>
       
