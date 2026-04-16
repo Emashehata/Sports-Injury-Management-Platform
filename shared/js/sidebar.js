@@ -23,7 +23,7 @@ export function createSidebar(activePage = 'dashboard') {
         </a>
         
         <a href="../Players/players-manager.html" class="sidebar-link ${activePage === 'players' ? 'active' : ''}">
-          <i class="fa-solid fa-user-athlete"></i>
+          <i class="fa-solid fa-users"></i> 
           <span>اللاعبين</span>
         </a>
         
