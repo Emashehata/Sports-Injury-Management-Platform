@@ -2,26 +2,21 @@ import { News } from "../shared/models/News.model.js";
 
 const BASE_URL = "https://medical-cca8b-default-rtdb.firebaseio.com";
 
-// جلب كل الأخبار - نسخة آمنة 100%
 export async function getAllNews() {
   try {
     const res = await fetch(`${BASE_URL}/news.json`);
     const data = await res.json();
     
-    // لو مفيش بيانات خالص
     if (!data || typeof data !== 'object') {
       return [];
     }
     
     const newsArray = [];
     
-    // استخدام for...in بدل Object.entries عشان أمان أكتر
     for (const key in data) {
-      // التأكد إن المفتاح خاص بالكائن مش من prototype
       if (data.hasOwnProperty(key)) {
         const value = data[key];
-        
-        // التأكد إن القيمة مش null
+
         if (value && typeof value === 'object') {
           newsArray.push(new News({
             id: key,
@@ -43,7 +38,6 @@ export async function getAllNews() {
   }
 }
 
-// باقي الدوال كما هي...
 export async function addNews(data) {
   try {
     const news = new News(data);

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>إدارة الأخصائيين - لوحة التحكم</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/admin-style.css">
+    <link rel="stylesheet" href="../../css/toaster.css">
+    <link rel="stylesheet" href="./specialists-manager.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <div id="sidebar-container"></div>
+        
+        <main class="admin-main">
+            <button class="sidebar-toggle-btn" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <div class="specialists-header">
+                <div class="page-header" style="margin-bottom: 20px;">
+                    <h2>
+                        <i class="fa-solid fa-user-md" style="color: var(--primary);"></i> 
+                        إدارة الأخصائيين
+                    </h2>
+                    <div class="current-date" id="currentDate"></div>
+                </div>
+                
+                <div class="actions-bar">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="ابحث بالاسم أو التخصص...">
+                    </div>
+                    <button class="btn-add" id="openAddModalBtn">
+                        <i class="fa-solid fa-plus"></i>
+                        أخصائي جديد
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>الصورة</th>
+                            <th>الاسم</th>
+                            <th>البريد الإلكتروني</th>
+                            <th>التخصص</th>
+                            <th>الخبرة</th>
+                            <th>المؤهل</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="specialistsTableBody">
+                        <tr>
+                            <td colspan="7">
+                                <div class="loading-spinner">
+                                    <i class="fa-solid fa-spinner fa-pulse"></i>
+                                    <p>جاري التحميل...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="pagination" class="pagination"></div>
+        </main>
+    </div>
+    
+    <!-- Add/Edit Modal -->
+    <div id="specialistModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">إضافة أخصائي جديد</h3>
+                <button class="modal-close" onclick="window.closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="specialistForm">
+                    <input type="hidden" id="specialistId">
+                    <input type="hidden" id="oldImagePath">
+                    
+                    <div class="form-group">
+                        <label>الاسم الكامل <span class="required">*</span></label>
+                        <input type="text" id="name" required placeholder="أدخل اسم الأخصائي">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>البريد الإلكتروني <span class="required">*</span></label>
+                        <input type="email" id="email" required placeholder="example@domain.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>كلمة المرور <span class="required" id="passwordRequired">*</span></label>
+                        <input type="password" id="password" placeholder="أدخل كلمة المرور">
+                        <small class="text-muted">في حالة التعديل: اتركها فارغة للحفاظ على كلمة المرور الحالية</small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>رقم الهاتف</label>
+                            <input type="tel" id="phone" placeholder="05xxxxxxxx">
+                        </div>
+                        <div class="form-group">
+                            <label>سنوات الخبرة</label>
+                            <input type="number" id="experience" placeholder="عدد سنوات الخبرة" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>التخصص <span class="required">*</span></label>
+                            <select id="specialization" required>
+                                <option value="">اختر التخصص</option>
+                                <option value="علاج طبيعي">علاج طبيعي</option>
+                                <option value="طب رياضي">طب رياضي</option>
+                                <option value="علاج إصابات الملاعب">علاج إصابات الملاعب</option>
+                                <option value="تأهيل إصابات">تأهيل إصابات</option>
+                                <option value="تقويم عضلي هيكلي">تقويم عضلي هيكلي</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>المؤهل العلمي</label>
+                            <input type="text" id="qualification" placeholder="بكالوريوس علاج طبيعي...">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>عنوان العيادة</label>
+                        <textarea id="clinic_address" rows="2" placeholder="عنوان العيادة"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>الصورة الشخصية</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="imageFile" accept="image/*">
+                        </div>
+                        <img id="imagePreview" class="image-preview" alt="معاينة الصورة">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="window.closeModal()">إلغاء</button>
+                <button class="btn-save" id="saveBtn">حفظ</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="delete-modal">
+        <div class="delete-modal-content">
+            <div class="delete-modal-header">
+                <i class="fa-solid fa-trash-can"></i>
+                <h3>تأكيد الحذف</h3>
+            </div>
+            <div class="delete-modal-body">
+                <p>هل أنت متأكد من حذف هذا الأخصائي؟</p>
+                <div class="delete-specialist-name" id="deleteSpecialistName"></div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 16px;">سيتم حذف حساب المستخدم بالكامل</p>
+            </div>
+            <div class="delete-modal-footer">
+                <button class="btn-cancel" onclick="window.closeDeleteModal()">إلغاء</button>
+                <button class="btn-save" style="background: var(--danger);" id="confirmDeleteBtn">تأكيد الحذف</button>
+            </div>
+        </div>
+    </div>
+    
+<script type="module" src="../../shared/js/sidebar.js"></script>
+<script type="module" src="./specialists-manager.js"></script>
+</body>
+</html>
