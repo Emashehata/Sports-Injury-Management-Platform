@@ -1,4 +1,4 @@
-import { getDoctorById } from "../../../services/specialist_services.js";
+import { getSpecialistById } from "../../../services/specialist_services.js";
 import {
   getAvailableTimeSlots,
   addAppointment
@@ -35,20 +35,27 @@ async function init() {
     return;
   }
 
-  if (currentUser.user_type !== "player") {
-    showToast("هذه الصفحة مخصصة للاعب فقط", "error");
-    setTimeout(() => {
-      window.location.href = "../../../index.html";
-    }, 1200);
-    return;
-  }
+  if (currentUser.userType !== "player") {
+  showToast("هذه الصفحة مخصصة للاعب فقط", "error");
+  setTimeout(() => {
+    window.location.href = "../../../index.html";
+  }, 1200);
+  return;
+}
 
   if (!doctorId) {
     showToast("لم يتم تحديد الطبيب", "error");
     return;
   }
 
-  currentDoctor = await getDoctorById(doctorId);
+  const result = await getSpecialistById(doctorId);
+
+if (!result.success) {
+  showToast("تعذر تحميل بيانات الطبيب", "error");
+  return;
+}
+
+currentDoctor = result.data;
 
   if (!currentDoctor) {
     showToast("تعذر تحميل بيانات الطبيب", "error");

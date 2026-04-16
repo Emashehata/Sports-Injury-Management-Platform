@@ -31,7 +31,7 @@ function createDoctorCard(doctor) {
               <span>${doctor.clinic_address}</span>
             </div>
           </div>
-          <a href="../Player/add_appointment/add_appointment.html?doctorId=${doctor.id}" class="btn-appointment">احجز موعد</a>
+           <a href="../Player/add_appointment/add_appointment.html?doctorId=${doctor.specialistId}" class="btn-appointment">احجز موعد</a>
         </div>
       </div>
     </div>

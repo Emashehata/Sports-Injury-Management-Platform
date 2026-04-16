@@ -27,7 +27,7 @@ function hasSpecialistAccess() {
     return false;
   }
 
-  if (currentUser.user_type !== "specialist") {
+  if (currentUser.userType !== "specialist") {
     showAccessMessage("هذه الصفحة مخصصة للطبيب فقط.");
     availabilityForm.style.display = "none";
     return false;
