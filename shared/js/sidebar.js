@@ -2,7 +2,7 @@ export function createSidebar(activePage = 'dashboard') {
   return `
     <div class="admin-sidebar">
       <div class="sidebar-header">
-        <img src="../../assets/images/logosport.png" alt="Logo" class="sidebar-logo" onerror="this.src='https://via.placeholder.com/70'">
+        <img src="../../assets/images/logosport.png" alt="Logo" class="sidebar-logo" onerror="this.src='https://via.placeholder.com/40'">
         <h3>لوحة التحكم</h3>
       </div>
       
@@ -31,6 +31,12 @@ export function createSidebar(activePage = 'dashboard') {
           <i class="fa-solid fa-user-md"></i>
           <span>الأخصائيين</span>
         </a>
+        
+        <a href="../Contact/contact_messages.html" class="sidebar-link ${activePage === 'contact_messages' ? 'active' : ''}">
+          <i class="fa-regular fa-envelope"></i>
+          <span>رسائل التواصل</span>
+          <span class="messages-badge" id="unreadMessagesBadge" style="display: none;">0</span>
+        </a>
       </nav>
       
       <div class="sidebar-footer">
@@ -51,6 +57,26 @@ export function initSidebar() {
       localStorage.removeItem('userType');
       window.location.href = '../../index.html';
     });
+  }
+}
+
+// دالة لتحديث عدد الرسائل غير المقروءة في الـ sidebar
+export async function updateUnreadMessagesCount() {
+  try {
+    const { getUnreadCount } = await import('../../services/contact_services.js');
+    const unreadCount = await getUnreadCount();
+    
+    const badge = document.getElementById('unreadMessagesBadge');
+    if (badge) {
+      if (unreadCount > 0) {
+        badge.textContent = unreadCount;
+        badge.style.display = 'inline-block';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+  } catch (error) {
+    console.error('خطأ في جلب عدد الرسائل غير المقروءة:', error);
   }
 }
 
