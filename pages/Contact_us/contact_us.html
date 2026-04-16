@@ -3,38 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>من نحن</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+  <title>اتصل بنا</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- load global first -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+  
+  <!-- CSS files -->
   <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/toaster.css">
   <link rel="stylesheet" href="./contact_us.css">
 </head>
 <body>
   <nav></nav>
-<section class="about-hero-section">
-  <div class="about-hero-overlay"></div>
-
-  <div class="container position-relative">
-    <div class="about-hero-content text-center">
-
-      <div class="about-breadcrumb">
-        <a href="index.html">الرئيسية</a>
-        <span class="separator">←</span>
-        <span>اتصل بنا</span>
+  
+  <section class="about-hero-section">
+    <div class="about-hero-overlay"></div>
+    <div class="container">
+      <div class="about-hero-content text-center">
+        <h1 class="about-hero-title">اتصل بنا</h1>
+        <div class="about-breadcrumb">
+          <a href="../../index.html">الرئيسية</a>
+          <span class="separator">←</span>
+          <span>اتصل بنا</span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <section class="contact-form-section">
     <div class="container">
       <div class="contact-wrapper row g-0 align-items-stretch">
-        <!-- Right side (in rtl) - Contact info card -->
+        <!-- Contact info card -->
         <div class="col-lg-5 col-md-12">
           <div class="contact-info-card h-100">
             <h3><i class="fas fa-comment-dots ms-2"></i> تواصل معنا</h3>
@@ -71,16 +72,16 @@
               <a href="#" aria-label="إنستغرام"><i class="fab fa-instagram"></i></a>
               <a href="#" aria-label="لينكدإن"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <!-- small decorative map / note -->
+            
             <div class="map-placeholder mt-4">
-              <div style="background: rgba(255,255,255,0.1); border-radius: 18px; padding: 10px; font-size:13px; text-align:center;">
+              <div class="map-note">
                 <i class="fas fa-location-dot"></i> موقعنا في طنطا – نرحب بكم
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Left side (in rtl) - Arabic form -->
+        <!-- Contact Form -->
         <div class="col-lg-7 col-md-12">
           <div class="contact-form-wrapper">
             <h2 class="form-title">أرسل لنا رسالة</h2>
@@ -89,11 +90,11 @@
             <form id="arabicContactForm" class="contact-form">
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <label for="fullName"><i class="fas fa-user ms-1"></i> الاسم الكامل </label>
+                  <label for="fullName"><i class="fas fa-user ms-1"></i> الاسم الكامل *</label>
                   <input type="text" id="fullName" name="fullName" placeholder="أدخل اسمك الثلاثي" required>
                 </div>
                 <div class="col-md-6 form-group">
-                  <label for="email"><i class="fas fa-envelope ms-1"></i> البريد الإلكتروني </label>
+                  <label for="email"><i class="fas fa-envelope ms-1"></i> البريد الإلكتروني *</label>
                   <input type="email" id="email" name="email" placeholder="example@domain.com" required>
                 </div>
               </div>
@@ -101,10 +102,10 @@
               <div class="row">
                 <div class="col-md-6 form-group">
                   <label for="phone"><i class="fas fa-mobile-alt ms-1"></i> رقم الهاتف</label>
-                  <input type="tel" id="phone" name="phone" placeholder="+966 5xxxxxxxx">
+                  <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx">
                 </div>
                 <div class="col-md-6 form-group">
-                  <label for="subject"><i class="fas fa-tag ms-1"></i> الموضوع </label>
+                  <label for="subject"><i class="fas fa-tag ms-1"></i> الموضوع *</label>
                   <select id="subject" name="subject" required>
                     <option value="" disabled selected>-- اختر الموضوع --</option>
                     <option value="استفسار عام">استفسار عام</option>
@@ -117,14 +118,13 @@
               </div>
 
               <div class="form-group">
-                <label for="message"><i class="fas fa-pen-alt ms-1"></i> نص الرسالة </label>
+                <label for="message"><i class="fas fa-pen-alt ms-1"></i> نص الرسالة *</label>
                 <textarea id="message" name="message" rows="5" placeholder="اكتب رسالتك هنا ..." required></textarea>
               </div>
               
-              <button type="submit" class="submit-btn">
+              <button type="submit" class="submit-btn" id="submitBtn">
                 <i class="fas fa-paper-plane"></i> إرسال الرسالة
               </button>
-              <div id="formFeedback" class="alert-message"></div>
             </form>
           </div>
         </div>
@@ -132,8 +132,12 @@
     </div>
   </section>
 
-<footer></footer>
-<script type="module" src="../../shared/js/footer.js"></script>
-<script type="module" src="../../shared/js/navbar.js"></script>
+  <footer></footer>
+  
+  <div id="toaster-container"></div>
+
+  <script type="module" src="../../shared/js/footer.js"></script>
+  <script type="module" src="../../shared/js/navbar.js"></script>
+  <script type="module" src="./contact_us.js"></script>
 </body>
 </html>

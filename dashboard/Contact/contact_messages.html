@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسائل التواصل - لوحة التحكم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/admin-style.css">
+    <link rel="stylesheet" href="../../css/toaster.css">
+    <link rel="stylesheet" href="./contact_messages.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <div id="sidebar-container"></div>
+        
+        <main class="admin-main">
+            <button class="sidebar-toggle-btn" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <div class="messages-header">
+                <div class="page-header" style="margin-bottom: 20px;">
+                    <h2>
+                        <i class="fa-regular fa-envelope" style="color: var(--primary);"></i> 
+                        رسائل التواصل
+                    </h2>
+                    <div class="current-date" id="currentDate"></div>
+                </div>
+                
+                <div class="stats-cards" id="statsCards">
+                    <!-- سيتم ملء الإحصائيات هنا -->
+                </div>
+                
+                <div class="actions-bar">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="بحث بالاسم أو البريد...">
+                    </div>
+                    <div class="filter-box">
+                        <select id="statusFilter">
+                            <option value="">كل الرسائل</option>
+                            <option value="unread">غير مقروءة</option>
+                            <option value="read">مقروءة</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>المرسل</th>
+                            <th>البريد الإلكتروني</th>
+                            <th>الموضوع</th>
+                            <th>الرسالة</th>
+                            <th>التاريخ</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messagesTableBody">
+                        <tr>
+                            <td colspan="7">
+                                <div class="loading-spinner">
+                                    <i class="fa-solid fa-spinner fa-pulse"></i>
+                                    <p>جاري التحميل...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="pagination" class="pagination"></div>
+        </main>
+    </div>
+
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">تفاصيل الرسالة</h3>
+                <button class="modal-close" onclick="window.closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="messageDetails">
+                    <!-- سيتم ملء التفاصيل هنا -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="window.closeModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../shared/js/sidebar.js"></script>
+    <script type="module" src="./contact_messages.js"></script>
+</body>
+</html>
