@@ -28,6 +28,7 @@ const injuryTypeInput = document.getElementById("injuryType");
 const diagnosisInput = document.getElementById("diagnosis");
 const injuryDateInput = document.getElementById("injuryDate");
 const backBtn = document.getElementById("backBtn");
+const saveBtn = document.getElementById("saveBtn");
 
 const params = new URLSearchParams(window.location.search);
 const appointmentId = params.get("appointmentId");
@@ -37,6 +38,7 @@ const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 let currentAppointment = null;
 let currentPlayer = null;
 let previousInjuries = [];
+let isSubmitting = false;
 
 function showAccessMessage(message) {
   if (accessMessage) {
@@ -155,13 +157,15 @@ function renderPreviousInjuries() {
 
   previousInjuriesContainer.innerHTML = previousInjuries
     .sort((a, b) => new Date(b.injury_date) - new Date(a.injury_date))
-    .map((injury) => `
+    .map(
+      (injury) => `
       <div class="previous-injury-card">
         <div class="previous-injury-title">${injury.injury_type || "إصابة"}</div>
         <div class="previous-injury-text"><strong>التشخيص:</strong> ${injury.diagnosis || "غير محدد"}</div>
         <div class="previous-injury-text"><strong>تاريخ الإصابة:</strong> ${formatDate(injury.injury_date)}</div>
       </div>
-    `)
+    `
+    )
     .join("");
 }
 
@@ -192,11 +196,15 @@ async function loadData() {
   renderPlayerAndAppointment();
   renderPreviousInjuries();
 
-  injuryDateInput.value = currentAppointment.date || new Date().toISOString().split("T")[0];
+  injuryDateInput.value =
+    currentAppointment.date || new Date().toISOString().split("T")[0];
 }
 
 injuryForm.addEventListener("submit", async function (e) {
   e.preventDefault();
+
+  if (isSubmitting) return;
+  if (!currentAppointment) return;
 
   const payload = {
     player_id: String(currentAppointment.player_id),
@@ -211,22 +219,35 @@ injuryForm.addEventListener("submit", async function (e) {
     return;
   }
 
-  const result = await addInjury(payload);
+  isSubmitting = true;
+  saveBtn.disabled = true;
+  saveBtn.textContent = "جاري الحفظ...";
 
-  if (!result.success) {
-    showToast("فشل حفظ الإصابة", "error");
-    return;
+  try {
+    const result = await addInjury(payload);
+
+    if (!result.success) {
+      showToast("فشل حفظ الإصابة", "error");
+      return;
+    }
+
+    await updateAppointment(currentAppointment.id, {
+      status: "completed"
+    });
+
+    showToast("تم حفظ الإصابة بنجاح", "success");
+
+    setTimeout(() => {
+      window.location.href = "../BookedAppointments/doctor_appointments.html";
+    }, 1200);
+  } catch (error) {
+    console.error("Error saving injury:", error);
+    showToast("حدث خطأ أثناء حفظ الإصابة", "error");
+  } finally {
+    isSubmitting = false;
+    saveBtn.disabled = false;
+    saveBtn.textContent = "حفظ الإصابة";
   }
-
-  await updateAppointment(currentAppointment.id, {
-    status: "completed"
-  });
-
-  showToast("تم حفظ الإصابة بنجاح", "success");
-
-  setTimeout(() => {
-    window.location.href = "../BookedAppointments/doctor_appointments.html";
-  }, 1200);
 });
 
 backBtn.addEventListener("click", function () {

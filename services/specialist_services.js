@@ -86,10 +86,15 @@ export async function getAllSpecialists() {
 
 export async function getSpecialistById(id) {
   try {
-    const res = await fetch(`${BASE_URL}/specialists/${id}.json`);
-    const data = await res.json();
+    const [specialistRes, userRes] = await Promise.all([
+      fetch(`${BASE_URL}/specialists/${id}.json`),
+      fetch(`${BASE_URL}/users/${id}.json`)
+    ]);
 
-    if (!data) {
+    const specialistData = await specialistRes.json();
+    const userData = await userRes.json();
+
+    if (!specialistData) {
       return {
         success: false,
         data: null,
@@ -99,10 +104,18 @@ export async function getSpecialistById(id) {
 
     return {
       success: true,
-      data: new Specialist({
+      data: {
         id,
-        ...data
-      }),
+        name: userData?.name || "غير محدد",
+        email: userData?.email || "",
+        phone: userData?.phone || "",
+        imgPath: userData?.imgPath || "",
+        user_type: userData?.user_type || "specialist",
+        specialization: specialistData?.specialization || "غير محدد",
+        experience: specialistData?.experience || "0",
+        qualification: specialistData?.qualification || "غير محدد",
+        clinic_address: specialistData?.clinic_address || ""
+      },
       message: "Specialist found"
     };
 

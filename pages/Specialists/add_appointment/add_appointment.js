@@ -7,8 +7,11 @@ import { showToast } from "../../../shared/js/toaster.js";
 
 const availabilityForm = document.getElementById("availabilityForm");
 const accessMessage = document.getElementById("accessMessage");
+const submitBtn = availabilityForm.querySelector('button[type="submit"]');
 
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+let isSubmitting = false;
 
 function showAccessMessage(message, type = "error") {
   accessMessage.textContent = message;
@@ -59,6 +62,7 @@ function validateTimes(startTime, endTime, sessionDuration) {
 availabilityForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  if (isSubmitting) return;
   if (!hasSpecialistAccess()) return;
 
   const day = document.getElementById("day").value;
@@ -69,33 +73,52 @@ availabilityForm.addEventListener("submit", async (e) => {
 
   if (!validateTimes(startTime, endTime, sessionDuration)) return;
 
-  const existingDay = await getAvailabilityByDay(String(currentUser.id), day);
+  isSubmitting = true;
 
-  if (existingDay) {
-    showToast("تمت إضافة هذا اليوم بالفعل، يمكنك تعديله بدلًا من إضافته مرة أخرى", "warning");
-    return;
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "جاري الحفظ...";
   }
 
-  const result = await addAvailability({
-    specialist_id: String(currentUser.id),
-    day,
-    start_time: startTime,
-    end_time: endTime,
-    session_duration: Number(sessionDuration),
-    is_active: isActive
-  });
+  try {
+    const existingDay = await getAvailabilityByDay(String(currentUser.id), day);
 
-  if (result.success) {
-    showToast("تم حفظ الوقت المتاح بنجاح", "success");
+    if (existingDay) {
+      showToast("تمت إضافة هذا اليوم بالفعل، يمكنك تعديله بدلًا من إضافته مرة أخرى", "warning");
+      return;
+    }
 
-    availabilityForm.reset();
-    document.getElementById("isActive").checked = true;
+    const result = await addAvailability({
+      specialist_id: String(currentUser.id),
+      day,
+      start_time: startTime,
+      end_time: endTime,
+      session_duration: Number(sessionDuration),
+      is_active: isActive
+    });
 
-    setTimeout(() => {
-      window.location.href = "../Doctor_appointments/doctor_appointments.html";
-    }, 1200);
-  } else {
-    showToast(result.message || "حدث خطأ أثناء حفظ الوقت المتاح", "error");
+    if (result.success) {
+      showToast("تم حفظ الوقت المتاح بنجاح", "success");
+
+      availabilityForm.reset();
+      document.getElementById("isActive").checked = true;
+
+      setTimeout(() => {
+        window.location.href = "../Doctor_appointments/doctor_appointments.html";
+      }, 1200);
+    } else {
+      showToast(result.message || "حدث خطأ أثناء حفظ الوقت المتاح", "error");
+    }
+  } catch (error) {
+    console.error(error);
+    showToast("حدث خطأ أثناء حفظ الوقت المتاح", "error");
+  } finally {
+    isSubmitting = false;
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "حفظ";
+    }
   }
 });
 
