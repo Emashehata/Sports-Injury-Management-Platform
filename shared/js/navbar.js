@@ -49,9 +49,14 @@ function getRoleBasedLink(user) {
 
   if (userType === "specialist" || userType === "specilist") {
     return `
+     <li>
+        <a href="${buildPath("pages/Specialists/Doctor_appointments/doctor_appointments.html")}">
+          مواعيدي
+        </a>
+      </li>
       <li>
         <a href="${buildPath("pages/Specialists/BookedAppointments/doctor_appointments.html")}">
-          مواعيد الأخصائي
+          الحجوزات
         </a>
       </li>
     `;

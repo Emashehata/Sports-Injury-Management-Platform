@@ -2,6 +2,12 @@ body {
   font-family: "Cairo", sans-serif;
   background: var(--gray-150);
   color: var(--text-main);
+  min-height: 100vh;
+}
+
+.doctor-exam-section {
+  padding-top: 36px;
+  padding-bottom: 90px;
 }
 
 .exam-wrapper {
@@ -11,6 +17,7 @@ body {
   padding: 32px;
   box-shadow: 0 18px 45px rgba(3, 98, 86, 0.08);
   margin-top: 110px;
+  margin-bottom: 40px;
 }
 
 .exam-header {
@@ -74,11 +81,38 @@ body {
   gap: 10px;
   color: var(--text-muted);
   line-height: 1.8;
+  word-break: break-word;
 }
 
 .info-item i {
   color: var(--primary);
   width: 18px;
+  min-width: 18px;
+}
+
+.previous-injuries-card {
+  display: flex;
+  flex-direction: column;
+}
+
+#previousInjuriesContainer {
+  max-height: 420px;
+  overflow-y: auto;
+  padding-left: 4px;
+  padding-right: 2px;
+}
+
+#previousInjuriesContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+#previousInjuriesContainer::-webkit-scrollbar-thumb {
+  background: rgba(3, 98, 86, 0.25);
+  border-radius: 20px;
+}
+
+#previousInjuriesContainer::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .previous-injury-card {
@@ -104,6 +138,10 @@ body {
   color: var(--text-muted);
   margin-bottom: 6px;
   line-height: 1.8;
+}
+
+.previous-injury-text:last-child {
+  margin-bottom: 0;
 }
 
 .empty-box {
@@ -184,6 +222,11 @@ textarea.form-control {
   background: var(--primary-hover);
 }
 
+.save-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .cancel-btn {
   background: var(--gray-200);
   color: var(--text-main);
@@ -193,10 +236,31 @@ textarea.form-control {
   background: var(--gray-300);
 }
 
+footer {
+  position: static;
+  width: 100%;
+}
+
+@media (max-width: 991px) {
+  .exam-wrapper {
+    margin-top: 90px;
+  }
+
+  #previousInjuriesContainer {
+    max-height: 340px;
+  }
+}
+
 @media (max-width: 576px) {
+  .doctor-exam-section {
+    padding-bottom: 60px;
+  }
+
   .exam-wrapper {
     padding: 20px;
     border-radius: 22px;
+    margin-top: 80px;
+    margin-bottom: 24px;
   }
 
   .exam-header h1 {
@@ -205,5 +269,9 @@ textarea.form-control {
 
   .action-btn {
     width: 100%;
+  }
+
+  #previousInjuriesContainer {
+    max-height: 280px;
   }
 }
