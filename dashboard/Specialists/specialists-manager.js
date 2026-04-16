@@ -10,8 +10,7 @@
             getSpecialistById
         } from '../../services/specialist_services.js';
         import { getAllUsers, addUser, updateUser, deleteUser } from '../../services/user_services.js';
-        
-        // حماية الصفحة
+
         if (!requireAdmin()) {
             window.location.href = '../../index.html';
         }
@@ -22,7 +21,6 @@
         let pendingDeleteId = null;
         const itemsPerPage = 10;
         
-        // رفع الصورة إلى Base64
         function uploadImageToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -31,8 +29,7 @@
                 reader.readAsDataURL(file);
             });
         }
-        
-        // Initialize sidebar
+
         const sidebarContainer = document.getElementById('sidebar-container');
         if (sidebarContainer) {
             sidebarContainer.innerHTML = createSidebar('specialists');
@@ -40,7 +37,6 @@
             setupMobileSidebar();
         }
         
-        // Set current date
         const now = new Date();
         const currentDateElem = document.getElementById('currentDate');
         if (currentDateElem) {
@@ -49,21 +45,18 @@
             });
         }
         
-        // جلب جميع المستخدمين والأخصائيين ودمجهم
         async function loadSpecialists() {
             try {
                 const usersResult = await getAllUsers();
                 let users = [];
                 if (usersResult.success && usersResult.data) {
                     users = usersResult.data;
-                    console.log('المستخدمين:', users);
                 }
                 
                 const specialistsResult = await getAllSpecialists();
                 let specialists = [];
                 if (specialistsResult.success && specialistsResult.data) {
                     specialists = specialistsResult.data;
-                    console.log('الأخصائيين:', specialists);
                 }
                 
                 const combinedData = specialists.map(specialist => {
@@ -89,8 +82,7 @@
                 showToast('حدث خطأ في تحميل البيانات', 'error');
             }
         }
-        
-        // حفظ الأخصائي (إضافة أو تعديل)
+
         async function saveSpecialist() {
             const specialistId = document.getElementById('specialistId').value;
             const isEdit = !!specialistId;
@@ -100,7 +92,6 @@
             const emailInput = document.getElementById('email').value.trim();
             const phoneInput = document.getElementById('phone').value.trim();
             
-            // بناء بيانات المستخدم
             const userData = {
                 name: nameInput,
                 email: emailInput,
@@ -108,7 +99,6 @@
                 user_type: 'specialist'
             };
             
-            // معالجة الصورة بشكل صحيح
             const hasNewImage = preview.src && 
                                 preview.classList.contains('show') && 
                                 preview.src !== '' &&
@@ -195,7 +185,6 @@
             }
         }
         
-        // حذف الأخصائي
         async function confirmDelete() {
             if (!pendingDeleteId) return;
             
@@ -249,7 +238,6 @@
             }
             
             tbody.innerHTML = paginated.map(s => {
-                // التحقق من صحة الصورة
                 const isValidImage = s.imgPath && 
                                     s.imgPath !== '' && 
                                     !s.imgPath.includes(window.location.hostname) && 
@@ -321,8 +309,7 @@
                 renderTable();
             });
         }
-        
-        // فتح مودال الإضافة
+  
         window.openAddModal = () => {
             document.getElementById('modalTitle').textContent = 'إضافة أخصائي جديد';
             document.getElementById('specialistForm').reset();
@@ -336,8 +323,7 @@
             document.getElementById('imagePreview').src = '';
             document.getElementById('specialistModal').classList.add('open');
         };
-        
-        // تعديل أخصائي
+
         window.editSpecialist = async (id) => {
             try {
                 const specialistResult = await getSpecialistById(id);
@@ -368,7 +354,6 @@
                 document.getElementById('password').placeholder = 'اتركها فارغة للحفاظ على كلمة المرور الحالية';
                 document.getElementById('passwordRequired').style.display = 'none';
                 
-                // حفظ مسار الصورة القديمة
                 const oldImagePathInput = document.getElementById('oldImagePath');
                 if (userData?.imgPath && userData.imgPath !== '') {
                     oldImagePathInput.value = userData.imgPath;
@@ -388,7 +373,6 @@
             }
         };
         
-        // رفع الصورة
         const imageFileInput = document.getElementById('imageFile');
         if (imageFileInput) {
             imageFileInput.addEventListener('change', async (e) => {
@@ -410,7 +394,6 @@
             });
         }
         
-        // فتح مودال الحذف
         window.openDeleteModal = (id, name) => {
             pendingDeleteId = id;
             document.getElementById('deleteSpecialistName').textContent = `"${name}"`;

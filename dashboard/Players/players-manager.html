@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>إدارة اللاعبين - لوحة التحكم</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/admin-style.css">
+    <link rel="stylesheet" href="../../css/toaster.css">
+    <link rel="stylesheet" href="./players-manager.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <div id="sidebar-container"></div>
+        
+        <main class="admin-main">
+            <button class="sidebar-toggle-btn" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <div class="players-header">
+                <div class="page-header" style="margin-bottom: 20px;">
+                    <h2>
+                        <i class="fa-solid fa-users" style="color: var(--primary);"></i> 
+                        إدارة اللاعبين
+                    </h2>
+                    <div class="current-date" id="currentDate"></div>
+                </div>
+                
+                <div class="actions-bar">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div class="search-box">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="ابحث بالاسم أو البريد...">
+                        </div>
+                        <div class="filter-box">
+                            <select id="sportFilter">
+                                <option value="">كل الرياضات</option>
+                                <option value="كرة القدم">كرة القدم</option>
+                                <option value="كرة السلة">كرة السلة</option>
+                                <option value="كرة الطائرة">كرة الطائرة</option>
+                                <option value="السباحة">السباحة</option>
+                                <option value="التنس">التنس</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-add" id="openAddModalBtn">
+                        <i class="fa-solid fa-plus"></i>
+                        لاعب جديد
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>الصورة</th>
+                            <th>الاسم</th>
+                            <th>البريد الإلكتروني</th>
+                            <th>رقم الهاتف</th>
+                            <th>الرياضة</th>
+                            <th>العمر</th>
+                            <th>الطول/الوزن</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="playersTableBody">
+                        <tr>
+                            <td colspan="8">
+                                <div class="loading-spinner">
+                                    <i class="fa-solid fa-spinner fa-pulse"></i>
+                                    <p>جاري التحميل...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="pagination" class="pagination"></div>
+        </main>
+    </div>
+    
+    <!-- Add/Edit Modal -->
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">إضافة لاعب جديد</h3>
+                <button class="modal-close" onclick="window.closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="playerForm">
+                    <input type="hidden" id="playerId">
+                    <input type="hidden" id="oldImagePath">
+                    
+                    <div class="form-group">
+                        <label>الاسم الكامل <span class="required">*</span></label>
+                        <input type="text" id="name" required placeholder="أدخل اسم اللاعب">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>البريد الإلكتروني <span class="required">*</span></label>
+                        <input type="email" id="email" required placeholder="example@domain.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>كلمة المرور <span class="required" id="passwordRequired">*</span></label>
+                        <input type="password" id="password" placeholder="أدخل كلمة المرور">
+                        <small class="text-muted">في حالة التعديل: اتركها فارغة للحفاظ على كلمة المرور الحالية</small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>رقم الهاتف</label>
+                            <input type="tel" id="phone" placeholder="05xxxxxxxx">
+                        </div>
+                        <div class="form-group">
+                            <label>العمر</label>
+                            <input type="number" id="age" placeholder="العمر" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>الطول (سم)</label>
+                            <input type="number" id="height" placeholder="الطول بالسنتيمتر" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>الوزن (كجم)</label>
+                            <input type="number" id="weight" placeholder="الوزن بالكيلوجرام" value="0" step="0.1">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>الرياضة</label>
+                        <select id="sport">
+                            <option value="">اختر الرياضة</option>
+                            <option value="كرة القدم">كرة القدم</option>
+                            <option value="كرة السلة">كرة السلة</option>
+                            <option value="كرة الطائرة">كرة الطائرة</option>
+                            <option value="السباحة">السباحة</option>
+                            <option value="التنس">التنس</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>الصورة الشخصية</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="imageFile" accept="image/*">
+                        </div>
+                        <img id="imagePreview" class="image-preview" alt="معاينة الصورة">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="window.closeModal()">إلغاء</button>
+                <button class="btn-save" id="saveBtn">حفظ</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Modal -->
+    <div id="statsModal" class="modal">
+        <div class="modal-content stats-modal-content">
+            <div class="modal-header">
+                <h3 id="statsModalTitle">إحصائيات اللاعب</h3>
+                <button class="modal-close" onclick="window.closeStatsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="statsContainer" class="stats-container">
+                    <!-- سيتم ملء الإحصائيات هنا -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="window.closeStatsModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="delete-modal">
+        <div class="delete-modal-content">
+            <div class="delete-modal-header">
+                <i class="fa-solid fa-trash-can"></i>
+                <h3>تأكيد الحذف</h3>
+            </div>
+            <div class="delete-modal-body">
+                <p>هل أنت متأكد من حذف هذا اللاعب؟</p>
+                <div class="delete-player-name" id="deletePlayerName"></div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 16px;">سيتم حذف حساب المستخدم والبيانات الرياضية بالكامل</p>
+            </div>
+            <div class="delete-modal-footer">
+                <button class="btn-cancel" onclick="window.closeDeleteModal()">إلغاء</button>
+                <button class="btn-save" style="background: var(--danger);" id="confirmDeleteBtn">تأكيد الحذف</button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../shared/js/sidebar.js"></script>
+    <script type="module" src="./players-manager.js"></script>
+</body>
+</html>
