@@ -1,11 +1,12 @@
 import {
   getAppointmentsByPlayer,
+  getAppointmentsBySpecialist,
   updateAppointment,
   deleteAppointment,
   getAvailableTimeSlots
 } from "../../../services/appointment_services.js";
 
-import { getAvailabilityBySpecialist } from "../../../services/availability_services.js";
+import { getAllSpecialistsWithUsers } from "../../../services/specialist_services.js";
 import { showToast } from "../../../shared/js/toaster.js";
 
 const appointmentsContainer = document.getElementById("appointmentsContainer");
@@ -20,6 +21,7 @@ const editAppointmentStatus = document.getElementById("editAppointmentStatus");
 
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 let allAppointments = [];
+let specialistsMap = {};
 let editModal = null;
 
 const deleteAppointmentModalEl = document.getElementById("deleteAppointmentModal");
@@ -42,7 +44,7 @@ function hasPlayerAccess() {
     return false;
   }
 
-  if (currentUser.user_type !== "player") {
+  if ((currentUser.userType || currentUser.user_type) !== "player") {
     showAccessMessage("هذه الصفحة مخصصة للاعب فقط");
     return false;
   }
@@ -103,31 +105,52 @@ function formatDateOption(dateString) {
   });
 }
 
-function generateAvailableDatesFromSchedule(availabilityList, daysAhead = 30) {
-  const availableDays = availabilityList
-    .filter(item => item.is_active !== false)
-    .map(item => item.day);
+function formatTimeArabic(time) {
+  if (!time) return "غير محدد";
 
-  const dates = [];
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  if (typeof time === "string" && time.includes(":")) {
+    const parts = time.split(":");
+    let hours = parseInt(parts[0], 10);
+    let minutes = parseInt(parts[1], 10);
 
-  for (let i = 0; i < daysAhead; i++) {
-    const current = new Date(today);
-    current.setDate(today.getDate() + i);
+    if (isNaN(hours)) return time;
+    if (isNaN(minutes)) minutes = 0;
 
-    const dayName = current.toLocaleDateString("en-US", { weekday: "long" });
+    const period = hours >= 12 ? "م" : "ص";
+    let formattedHours = hours % 12;
+    if (formattedHours === 0) formattedHours = 12;
 
-    if (availableDays.includes(dayName)) {
-      const yyyy = current.getFullYear();
-      const mm = String(current.getMonth() + 1).padStart(2, "0");
-      const dd = String(current.getDate()).padStart(2, "0");
-
-      dates.push(`${yyyy}-${mm}-${dd}`);
-    }
+    return `${formattedHours}:${String(minutes).padStart(2, "0")} ${period}`;
   }
 
-  return dates;
+  return time;
+}
+
+function getDoctorDisplayName(item) {
+  return specialistsMap[String(item.specialist_id)] || "الطبيب";
+}
+
+async function loadSpecialistsNames() {
+  try {
+    const result = await getAllSpecialistsWithUsers();
+    console.log("Specialists result:", result);
+
+    if (!result.success || !Array.isArray(result.data)) {
+      specialistsMap = {};
+      return;
+    }
+
+    specialistsMap = result.data.reduce((acc, specialist) => {
+      const key = String(specialist.specialistId);
+      acc[key] = specialist.name || "الطبيب";
+      return acc;
+    }, {});
+
+    console.log("specialistsMap:", specialistsMap);
+  } catch (error) {
+    console.error("Error loading specialists names:", error);
+    specialistsMap = {};
+  }
 }
 
 function renderAppointments(data) {
@@ -151,8 +174,8 @@ function renderAppointments(data) {
         <div class="appointment-card">
           <div class="appointment-top">
             <div>
-              <div class="appointment-doctor">${item.doctor_name || item.specialist_name || "الطبيب"}</div>
-              <div class="appointment-time">${item.time || "غير محدد"}</div>
+              <div class="appointment-doctor">د/ ${getDoctorDisplayName(item)}</div>
+              <div class="appointment-time">${formatTimeArabic(item.time)}</div>
             </div>
 
             <span class="status-badge ${getStatusClass(item.status)}">
@@ -168,12 +191,12 @@ function renderAppointments(data) {
 
             <div class="appointment-detail-item">
               <i class="fa-regular fa-clock"></i>
-              <span>الوقت: ${item.time || "غير محدد"}</span>
+              <span>الوقت: ${formatTimeArabic(item.time)}</span>
             </div>
 
             <div class="appointment-detail-item">
               <i class="fa-solid fa-user-doctor"></i>
-              <span>رقم الطبيب: ${item.specialist_id || "-"}</span>
+              <span>الطبيب: ${getDoctorDisplayName(item)}</span>
             </div>
           </div>
 
@@ -203,6 +226,7 @@ async function loadAppointments() {
   `;
 
   allAppointments = await getAppointmentsByPlayer(String(currentUser.id));
+  console.log("Player appointments:", allAppointments);
   renderAppointments(allAppointments);
 }
 
@@ -211,20 +235,28 @@ async function loadAvailableDatesForEdit(doctorId, currentDate = "") {
 
   if (!doctorId) {
     editAppointmentDate.innerHTML = `<option value="">اختر التاريخ</option>`;
-    return;
+    return [];
   }
 
-  const availabilityList = await getAvailabilityBySpecialist(String(doctorId));
+  const doctorAppointments = await getAppointmentsBySpecialist(String(doctorId));
 
-  if (!availabilityList || availabilityList.length === 0) {
-    editAppointmentDate.innerHTML = `<option value="">لا توجد أيام متاحة لهذا الطبيب</option>`;
-    return;
-  }
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-  let validDates = generateAvailableDatesFromSchedule(availabilityList, 30);
+  let validDates = doctorAppointments
+    .filter(item => item.status !== "cancelled" && item.date)
+    .map(item => item.date)
+    .filter(date => {
+      const appointmentDate = new Date(date);
+      appointmentDate.setHours(0, 0, 0, 0);
+      return appointmentDate >= today;
+    });
 
-  if (currentDate && !validDates.includes(currentDate)) {
-    validDates.unshift(currentDate);
+  validDates = [...new Set(validDates)].sort();
+
+  if (!validDates.length) {
+    editAppointmentDate.innerHTML = `<option value="">لا توجد تواريخ قادمة متاحة لهذا الطبيب</option>`;
+    return [];
   }
 
   editAppointmentDate.innerHTML = `
@@ -239,6 +271,8 @@ async function loadAvailableDatesForEdit(doctorId, currentDate = "") {
       )
       .join("")}
   `;
+
+  return validDates;
 }
 
 async function loadAvailableTimesForEdit(doctorId, date, currentTime = "") {
@@ -266,7 +300,7 @@ async function loadAvailableTimesForEdit(doctorId, date, currentTime = "") {
     ${slots
       .map(
         (slot) =>
-          `<option value="${slot}" ${slot === currentTime ? "selected" : ""}>${slot}</option>`
+          `<option value="${slot}" ${slot === currentTime ? "selected" : ""}>${formatTimeArabic(slot)}</option>`
       )
       .join("")}
   `;
@@ -283,8 +317,16 @@ window.openEditModal = async function (id) {
   editDoctorId.value = item.specialist_id || "";
   editAppointmentStatus.value = translateStatus(item.status || "pending");
 
-  await loadAvailableDatesForEdit(item.specialist_id, item.date);
-  await loadAvailableTimesForEdit(item.specialist_id, item.date, item.time);
+  const validDates = await loadAvailableDatesForEdit(item.specialist_id, item.date);
+
+  if (validDates.includes(item.date)) {
+    editAppointmentDate.value = item.date;
+    await loadAvailableTimesForEdit(item.specialist_id, item.date, item.time);
+  } else {
+    editAppointmentDate.value = "";
+    editAppointmentTime.innerHTML = `<option value="">اختر التاريخ أولاً</option>`;
+    showToast("اليوم الحالي لم يعد ضمن التواريخ القادمة المتاحة للطبيب", "warning");
+  }
 
   editModal.show();
 };
@@ -375,12 +417,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   const modalElement = document.getElementById("editAppointmentModal");
   editModal = new bootstrap.Modal(modalElement);
 
-  const toastData = sessionStorage.getItem("toast");
-  if (toastData) {
-    const { message, type } = JSON.parse(toastData);
-    showToast(message, type || "success");
-    sessionStorage.removeItem("toast");
-  }
-
+  await loadSpecialistsNames();
   await loadAppointments();
 });

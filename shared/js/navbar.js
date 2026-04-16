@@ -26,7 +26,7 @@ function logout() {
 }
 
 function getUserType(user) {
-  return user?.user_type?.toLowerCase() || "";
+  return (user?.userType || user?.user_type || "").toLowerCase();
 }
 
 function getRoleBasedLink(user) {
@@ -39,13 +39,18 @@ function getRoleBasedLink(user) {
           مواعيدي
         </a>
       </li>
+       <li>
+        <a href="${buildPath("pages/Player/medical_record/medical_record.html")}">
+          السجل الطبي
+        </a>
+      </li>
     `;
   }
 
   if (userType === "specialist" || userType === "specilist") {
     return `
       <li>
-        <a href="${buildPath("pages/Specialists/Doctor_appointments/doctor_appointments.html")}">
+        <a href="${buildPath("pages/Specialists/BookedAppointments/doctor_appointments.html")}">
           مواعيد الأخصائي
         </a>
       </li>
