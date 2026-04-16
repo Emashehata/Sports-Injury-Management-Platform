@@ -7,7 +7,7 @@ import { getAllDoctors } from '../../../services/specialist_services.js';
       : '../../../assets/images/Doctor.png';
     
     return `
-      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+      <div class=" col-md-3" data-aos="fade-up" data-aos-delay="100">
         <div class="doctor-card">
           <div class="doctor-image">
             <img src="${imageUrl}" alt="Dr. ${doctor.name}" class="img-fluid">
