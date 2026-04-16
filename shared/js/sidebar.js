@@ -17,7 +17,7 @@ export function createSidebar(activePage = 'dashboard') {
           <span>إدارة الأخبار</span>
         </a>
         
-        <a href="../Injuries/injuries-manager.html" class="sidebar-link ${activePage === 'injuries' ? 'active' : ''}">
+        <a href="../Injuries/injury_management.html" class="sidebar-link ${activePage === 'injuries' ? 'active' : ''}">
           <i class="fa-solid fa-futbol"></i>
           <span>إدارة الإصابات</span>
         </a>

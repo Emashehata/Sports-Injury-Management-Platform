@@ -18,7 +18,8 @@
     
         console.log('مرحباً أدمن:', getCurrentUser()?.name);
 
-        document.getElementById('sidebar-container').innerHTML = createSidebar('dashboard');
+        // document.getElementById('sidebar-container').innerHTML = createSidebar('dashboard');
+        document.getElementById('sidebar-container').innerHTML = createSidebar('home');
         initSidebar();
         setupMobileSidebar();
         

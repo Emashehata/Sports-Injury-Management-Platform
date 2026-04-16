@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>إدارة الإصابات - لوحة التحكم</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/admin-style.css">
+  <link rel="stylesheet" href="../../css/toaster.css">
+  <link rel="stylesheet" href="./injury_management.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <div id="sidebar-container"></div>
+
+    <main class="admin-main">
+      <button class="sidebar-toggle-btn" id="sidebarToggle">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="injury-header">
+        <div class="page-header" style="margin-bottom: 20px;">
+          <h2>
+            <i class="fa-solid fa-notes-medical" style="color: var(--primary);"></i>
+            إدارة الإصابات
+          </h2>
+          <div class="current-date" id="currentDate"></div>
+        </div>
+
+        <div class="actions-bar-injury">
+          <div class="search-box-injury">
+            <i class="fa-solid fa-search"></i>
+            <input type="text" id="searchInput" placeholder="ابحث بنوع الإصابة أو التشخيص...">
+          </div>
+
+          <button class="btn-add-injury" id="openAddModalBtn">
+            <i class="fa-solid fa-plus"></i>
+            إصابة جديدة
+          </button>
+        </div>
+      </div>
+
+      <div class="injury-table-container">
+        <table class="injury-table">
+          <thead>
+            <tr>
+              <th>نوع الإصابة</th>
+              <th>التشخيص</th>
+              <th>اللاعب</th>
+              <th>الأخصائي</th>
+              <th>تاريخ الإصابة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="injuryTableBody">
+            <tr>
+              <td colspan="6">
+                <div class="loading-spinner">
+                  <i class="fa-solid fa-spinner fa-pulse"></i>
+                  <p>جاري التحميل...</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="pagination" class="pagination-injury"></div>
+    </main>
+  </div>
+
+  <div id="injuryModal" class="modal-injury">
+    <div class="modal-injury-content">
+      <div class="modal-injury-header">
+        <h3 id="modalTitle">إضافة إصابة جديدة</h3>
+        <button class="modal-injury-close" onclick="closeModal()">&times;</button>
+      </div>
+
+      <div class="modal-injury-body">
+        <form id="injuryForm">
+          <input type="hidden" id="injuryId">
+
+          <div class="form-group-injury">
+            <label>رقم اللاعب *</label>
+            <input type="text" id="playerId" required placeholder="أدخل ID اللاعب">
+          </div>
+
+          <div class="form-group-injury">
+            <label>رقم الأخصائي *</label>
+            <input type="text" id="specialistId" required placeholder="أدخل ID الأخصائي">
+          </div>
+
+          <div class="form-group-injury">
+            <label>نوع الإصابة *</label>
+            <input type="text" id="injuryType" required placeholder="أدخل نوع الإصابة">
+          </div>
+
+          <div class="form-group-injury">
+            <label>التشخيص *</label>
+            <textarea id="diagnosis" required placeholder="أدخل التشخيص..."></textarea>
+          </div>
+
+          <div class="form-group-injury">
+            <label>تاريخ الإصابة *</label>
+            <input type="date" id="injuryDate" required>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-injury-footer">
+        <button class="btn-cancel-injury" onclick="closeModal()">إلغاء</button>
+        <button class="btn-save-injury" id="saveInjuryBtn">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="deleteModal" class="delete-modal">
+    <div class="delete-modal-content">
+      <div class="delete-modal-header">
+        <i class="fa-solid fa-trash-can"></i>
+        <h3>تأكيد الحذف</h3>
+      </div>
+
+      <div class="delete-modal-body">
+        <p>هل أنت متأكد من حذف هذه الإصابة؟</p>
+        <div class="delete-injury-title" id="deleteInjuryTitle"></div>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 16px;">
+          لا يمكنك التراجع عن هذا الإجراء
+        </p>
+      </div>
+
+      <div class="delete-modal-footer">
+        <button class="btn-cancel-delete" onclick="closeDeleteModal()">إلغاء</button>
+        <button class="btn-confirm-delete" id="confirmDeleteBtn">تأكيد الحذف</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./injury_management.js"></script>
+</body>
+</html>
