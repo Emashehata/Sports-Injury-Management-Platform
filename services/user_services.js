@@ -24,12 +24,35 @@ export async function getAllUsers() {
       };
     }
 
-    const users = Object.entries(data).map(([key, value]) => {
-      return new User({
-        id: key,
-        ...value
+    let users = [];
+    
+    // ✅ التعامل مع كل من Object و Array
+    if (Array.isArray(data)) {
+      // إذا كانت البيانات مصفوفة
+      users = data
+        .filter(user => user !== null && user !== undefined) // إزالة القيم الفارغة
+        .map(user => {
+          return new User({
+            id: user.id?.toString() || '',
+            name: user.name || '',
+            email: user.email || '',
+            password: user.password || '',
+            phone: user.phone?.toString() || '',
+            imgPath: user.imgPath || '',
+            user_type: user.user_type || 'player'
+          });
+        });
+    } else {
+      // إذا كانت البيانات كائن (Object)
+      users = Object.entries(data).map(([key, value]) => {
+        return new User({
+          id: key,
+          ...value
+        });
       });
-    });
+    }
+
+    console.log('✅ تم جلب المستخدمين:', users);
 
     return {
       success: true,
@@ -39,7 +62,6 @@ export async function getAllUsers() {
 
   } catch (error) {
     console.error(error);
-
     return {
       success: false,
       data: [],
@@ -47,6 +69,31 @@ export async function getAllUsers() {
     };
   }
 }
+
+// دالة مساعدة للحصول على المستخدمين ككائن (للتحديث)
+async function getUsersAsObject() {
+  try {
+    const response = await fetch(`${BASE_URL}/users.json`);
+    const data = await response.json();
+    
+    if (!data) return {};
+    if (Array.isArray(data)) {
+      // تحويل المصفوفة إلى كائن باستخدام id كمفتاح
+      const obj = {};
+      data.forEach(user => {
+        if (user && user.id) {
+          obj[user.id] = user;
+        }
+      });
+      return obj;
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+}
+
 function validateUser(user) {
   if (!user.name || !user.email || !user.password) {
     return "Name, Email, and Password are required";
@@ -60,13 +107,15 @@ function validateUser(user) {
     return "Password must be at least 6 characters";
   }
 
-  const allowedTypes = ["admin", "doctor", "player"];
+  // ✅ السماح بـ specialist
+  const allowedTypes = ["admin", "player", "specialist"];
   if (!allowedTypes.includes(user.user_type)) {
-    return "Invalid user type";
+    return "Invalid user type. Allowed types: " + allowedTypes.join(", ");
   }
 
   return null;
-} 
+}
+
 export async function addUser(userData) {
   try {
     const user = new User(userData);
@@ -80,11 +129,12 @@ export async function addUser(userData) {
       };
     }
 
-    const usersRes = await getAllUsers();
-    const users = usersRes.data || [];
-
+    // جلب المستخدمين الحاليين
+    const usersObj = await getUsersAsObject();
+    const users = Object.values(usersObj);
+    
+    // التحقق من وجود البريد الإلكتروني
     const emailExists = users.some(u => u.email === user.email);
-
     if (emailExists) {
       return {
         success: false,
@@ -93,31 +143,36 @@ export async function addUser(userData) {
       };
     }
 
+    // إنشاء ID جديد
     let lastId = 1000;
-
     if (users.length > 0) {
-      const ids = users.map(u => Number(u.id));
-      lastId = Math.max(...ids);
+      const ids = users.map(u => {
+        const idNum = parseInt(u.id);
+        return isNaN(idNum) ? 0 : idNum;
+      });
+      lastId = Math.max(...ids, 1000);
     }
-
     const newId = (lastId + 1).toString();
     user.id = newId;
 
-    await fetch(`${BASE_URL}/users/${newId}.json`, {
+    // حفظ ككائن
+    const updateObj = { ...usersObj, [newId]: user.toJSON() };
+    
+    await fetch(`${BASE_URL}/users.json`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user.toJSON())
+      body: JSON.stringify(updateObj)
     });
 
     return {
       success: true,
       data: user,
-      message: "User created successfully"
+      message: "User created successfully",
+      id: newId
     };
 
   } catch (error) {
     console.error(error);
-
     return {
       success: false,
       data: null,
@@ -128,8 +183,8 @@ export async function addUser(userData) {
 
 export async function getUserById(id) {
   try {
-    const res = await fetch(`${BASE_URL}/users/${id}.json`);
-    const data = await res.json();
+    const usersObj = await getUsersAsObject();
+    const data = usersObj[id];
 
     if (!data) {
       return {
@@ -150,7 +205,6 @@ export async function getUserById(id) {
 
   } catch (error) {
     console.error(error);
-
     return {
       success: false,
       data: null,
@@ -158,11 +212,12 @@ export async function getUserById(id) {
     };
   }
 }
+
 export async function updateUser(id, updatedData) {
   try {
-    const existingUserRes = await getUserById(id);
-
-    if (!existingUserRes.success) {
+    const usersObj = await getUsersAsObject();
+    
+    if (!usersObj[id]) {
       return {
         success: false,
         data: null,
@@ -170,34 +225,26 @@ export async function updateUser(id, updatedData) {
       };
     }
 
-    const response = await fetch(`${BASE_URL}/users/${id}.json`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(updatedData)
-    });
+    // تحديث البيانات
+    usersObj[id] = {
+      ...usersObj[id],
+      ...updatedData
+    };
 
-    if (!response.ok) {
-      return {
-        success: false,
-        data: null,
-        message: "Failed to update user"
-      };
-    }
+    await fetch(`${BASE_URL}/users.json`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(usersObj)
+    });
 
     return {
       success: true,
-      data: {
-        ...existingUserRes.data,
-        ...updatedData
-      },
+      data: usersObj[id],
       message: "User updated successfully"
     };
 
   } catch (error) {
     console.error(error);
-
     return {
       success: false,
       data: null,
@@ -205,19 +252,26 @@ export async function updateUser(id, updatedData) {
     };
   }
 }
+
 export async function deleteUser(id) {
   try {
-    const response = await fetch(`${BASE_URL}/users/${id}.json`, {
-      method: "DELETE"
-    });
-
-    if (!response.ok) {
+    const usersObj = await getUsersAsObject();
+    
+    if (!usersObj[id]) {
       return {
         success: false,
         data: null,
-        message: "Failed to delete user"
+        message: "User not found"
       };
     }
+
+    delete usersObj[id];
+
+    await fetch(`${BASE_URL}/users.json`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(usersObj)
+    });
 
     return {
       success: true,
@@ -227,7 +281,6 @@ export async function deleteUser(id) {
 
   } catch (error) {
     console.error(error);
-
     return {
       success: false,
       data: null,
@@ -235,6 +288,7 @@ export async function deleteUser(id) {
     };
   }
 }
+
 export async function searchUsers(keyword) {
   try {
     const usersRes = await getAllUsers();
@@ -262,7 +316,6 @@ export async function searchUsers(keyword) {
 
   } catch (error) {
     console.error(error);
-
     return {
       success: false,
       data: [],
@@ -270,7 +323,6 @@ export async function searchUsers(keyword) {
     };
   }
 }
-
 
 export function getCurrentUser() {
   const stored = localStorage.getItem('currentUser');
@@ -283,22 +335,27 @@ export function getCurrentUser() {
   }
   return null;
 }
+
 export function isAdmin() {
   const user = getCurrentUser();
   return user && (user.userType === 'admin' || user.user_type === 'admin');
 }
+
 export function isPlayer() {
   const user = getCurrentUser();
   return user && (user.userType === 'player' || user.user_type === 'player');
 }
+
 export function isSpecialist() {
   const user = getCurrentUser();
   return user && (user.userType === 'specialist' || user.user_type === 'specialist');
 }
+
 export function logout() {
   localStorage.removeItem('currentUser');
   window.location.href = '/index.html';
 }
+
 export function requireAdmin() {
   if (!isAdmin()) {
     window.location.href = '/index.html';

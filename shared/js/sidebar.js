@@ -7,27 +7,27 @@ export function createSidebar(activePage = 'dashboard') {
       </div>
       
       <nav class="sidebar-nav">
-        <a href="dashboard.html" class="sidebar-link ${activePage === 'dashboard' ? 'active' : ''}">
+        <a href="../Home/home.html" class="sidebar-link ${activePage === 'home' ? 'active' : ''}">
           <i class="fa-solid fa-chart-line"></i>
           <span>الرئيسية</span>
         </a>
         
-        <a href="news-manager.html" class="sidebar-link ${activePage === 'news' ? 'active' : ''}">
+        <a href="../News/news-manager.html" class="sidebar-link ${activePage === 'news' ? 'active' : ''}">
           <i class="fa-solid fa-newspaper"></i>
           <span>إدارة الأخبار</span>
         </a>
         
-        <a href="injuries-manager.html" class="sidebar-link ${activePage === 'injuries' ? 'active' : ''}">
+        <a href="../Injuries/injuries-manager.html" class="sidebar-link ${activePage === 'injuries' ? 'active' : ''}">
           <i class="fa-solid fa-futbol"></i>
           <span>إدارة الإصابات</span>
         </a>
         
-        <a href="players-manager.html" class="sidebar-link ${activePage === 'players' ? 'active' : ''}">
+        <a href="../Players/players-manager.html" class="sidebar-link ${activePage === 'players' ? 'active' : ''}">
           <i class="fa-solid fa-user-athlete"></i>
           <span>اللاعبين</span>
         </a>
         
-        <a href="specialists-manager.html" class="sidebar-link ${activePage === 'specialists' ? 'active' : ''}">
+        <a href="../Specialists/specialists-manager.html" class="sidebar-link ${activePage === 'specialists' ? 'active' : ''}">
           <i class="fa-solid fa-user-md"></i>
           <span>الأخصائيين</span>
         </a>
