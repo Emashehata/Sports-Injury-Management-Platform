@@ -60,64 +60,61 @@ The project follows a **modular structure**:
 ## 🛠️ Technologies Used
 
 | Technology | Usage |
-|----------|------|
+|------------|-------|
 | HTML5 | Structure |
 | CSS3 | Styling |
 | Bootstrap 5 | Responsive Design |
 | JavaScript | Logic |
-| Firebase Realtime DB | Backend |
+| Firebase Realtime Database | Backend |
 | Font Awesome | Icons |
 
 ---
 
 ## 🔥 Database (Firebase)
 
-We use **Firebase Realtime Database (NOT Firestore)**
+We use **Firebase Realtime Database (NOT Firestore)**.
 
 ### 📦 Collections Structure
 
-```json
+```text
 users/
 players/
 specialists/
 injuries/
 appointments/
 availability/
-contact_messages/
-```
----
-## 📂 Project Structure
-****
- project-root/
+
+project-root/
 │
 ├── pages/
-│ ├── Home/
-│ ├── Players/
-│ ├── Specialists/
-│ ├── Injuries/
-│ ├── News/
-│ └── Contact/
+│   ├── Home/
+│   ├── Players/
+│   ├── Specialists/
+│   ├── Injuries/
+│   ├── News/
+│   └── Contact/
 │
 ├── services/
-│ ├── user_services.js
-│ ├── injury_services.js
-│ ├── appointment_services.js
-│ └── availability_services.js
+│   ├── user_services.js
+│   ├── injury_services.js
+│   ├── appointment_services.js
+│   └── availability_services.js
 │
 ├── shared/
-│ ├── js/
-│ │ ├── navbar.js
-│ │ ├── sidebar.js
-│ │ └── toaster.js
-│ │
-│ ├── models/
-│ └── components/
+│   ├── js/
+│   │   ├── navbar.js
+│   │   ├── sidebar.js
+│   │   └── toaster.js
+│   │
+│   ├── models/
+│   └── components/
 │
 ├── css/
 │
 └── index.html
-****
----
+contact_messages/
+
+```
 ## 📬 Contact
 
 For any inquiries, collaboration, or feedback, feel free to reach out:
@@ -128,5 +125,4 @@ For any inquiries, collaboration, or feedback, feel free to reach out:
 
 - 👩‍💻 Eman Shehata  
   📧 Email: eman.shehata@example.com  
-  🔗 LinkedIn: https://www.linkedin.com/in/eman-shehata
----
+  🔗 LinkedIn: https://www.linkedin.com/in/eman-shehata  
