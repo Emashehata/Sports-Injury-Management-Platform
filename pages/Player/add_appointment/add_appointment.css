@@ -1,34 +1,37 @@
 body {
   font-family: "Cairo", sans-serif;
-  background: var(--gray-150);
-  color: var(--text-main);
+  background: var(--gray-150, #f5f5f5);
+  color: var(--text-main, #212529);
 }
 
 .appointment-page {
-  padding-top: 120px !important;
-  margin-top: 70px;
+  padding-top: 150px !important;
+  padding-bottom: 80px;
 }
 
+/* ========== الكارد الرئيسي ========== */
 .appointment-card {
-  background: var(--gray-300);
-  border-radius: 42px;
-  padding: 34px 40px 26px;
-  box-shadow: 0 12px 32px rgba(3, 98, 86, 0.08);
-  overflow: hidden;
+  background: var(--white, #fff);
+  border-radius: 28px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(3, 98, 86, 0.08);
+  border: 1px solid var(--gray-200, #eaeaea);
 }
 
+/* ========== معلومات الدكتور ========== */
 .doctor-info-card {
   text-align: center;
-  padding: 10px 18px;
+  padding: 10px;
 }
 
 .doctor-image-wrap {
-  width: 130px;
-  height: 130px;
+  width: 120px;
+  height: 120px;
   margin: 0 auto 20px;
   border-radius: 50%;
-  background: var(--gray-100);
-  border: 6px solid rgba(255, 255, 255, 0.55);
+  background: var(--primary-soft, rgba(3, 98, 86, 0.05));
+  border: 4px solid var(--white, #fff);
+  box-shadow: 0 8px 20px rgba(3, 98, 86, 0.15);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -42,19 +45,24 @@ body {
 }
 
 .doctor-name {
-  font-size: 2.2rem;
+  font-size: 26px;
   font-weight: 800;
-  color: var(--primary);
-  margin-bottom: 16px;
+  color: var(--primary-dark, #04342e);
+  margin-bottom: 12px;
+  word-break: break-word;
 }
 
 .doctor-about {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: var(--primary);
-  font-size: 1.2rem;
+  gap: 8px;
+  color: var(--primary, #036256);
+  font-size: 16px;
+  font-weight: 600;
   margin-bottom: 16px;
+  background: var(--primary-soft, rgba(3, 98, 86, 0.05));
+  padding: 6px 18px;
+  border-radius: 40px;
 }
 
 .doctor-meta {
@@ -64,206 +72,441 @@ body {
 }
 
 .doctor-meta li {
-  font-size: 1rem;
-  color: var(--text-main);
-  margin-bottom: 12px;
-  line-height: 1.8;
+  font-size: 15px;
+  color: var(--text-main, #212529);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  word-break: break-word;
 }
 
+.doctor-meta li i {
+  color: var(--primary, #036256);
+  width: 22px;
+  flex-shrink: 0;
+}
+
+/* ========== جزء الحجز ========== */
 .booking-content {
-  padding: 8px 10px;
-  text-align: center;
+  padding: 0 10px;
 }
 
 .booking-title {
-  font-size: 2.4rem;
+  font-size: 32px;
   font-weight: 800;
-  color: var(--primary);
+  color: var(--primary-dark, #04342e);
   margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.booking-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  right: 50%;
+  transform: translateX(50%);
+  width: 60px;
+  height: 3px;
+  background: var(--primary, #036256);
+  border-radius: 3px;
 }
 
 .section-main-title {
-  font-size: 1.7rem;
+  font-size: 20px;
   font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 16px;
+  color: var(--primary, #036256);
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .booking-section {
-  margin-bottom: 34px;
+  margin-bottom: 30px;
 }
 
+/* ========== أزرار الأيام ========== */
 .days-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .day-btn {
-  min-width: 112px;
-  min-height: 78px;
-  border-radius: 26px;
-  border: 1.5px solid var(--gray-600);
-  background: var(--gray-100);
-  color: var(--gray-700);
+  min-width: 100px;
+  padding: 12px 16px;
+  border-radius: 20px;
+  border: 2px solid var(--gray-200, #eaeaea);
+  background: var(--white, #fff);
+  color: var(--text-muted, #6c757d);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 4px;
-  padding: 10px 14px;
-  transition: 0.25s ease;
-  font-family: inherit;
+  transition: all 0.3s ease;
+  font-family: "Cairo", sans-serif;
+  cursor: pointer;
 }
 
 .day-btn .day-name {
-  font-size: 0.95rem;
+  font-size: 14px;
   font-weight: 700;
 }
 
 .day-btn .day-date {
-  font-size: 0.9rem;
+  font-size: 12px;
   font-weight: 600;
 }
-
 .day-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  transform: translateY(-2px);
+  border: 2px solid var(--primary, #036256);
+  background: var(--primary);
+  color: var(--white);
 }
-
 .day-btn.active {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: var(--white);
-  box-shadow: 0 8px 18px rgba(3, 98, 86, 0.12);
+  border: 2px solid var(--primary, #036256);
+  background: var(--primary);
+  color: var(--white);
 }
 
+/* ========== أزرار الوقت ========== */
 .times-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 18px;
-  min-height: 80px;
+  gap: 12px;
+  min-height: 50px;
 }
 
 .time-btn {
-  min-width: 150px;
-  height: 50px;
-  border-radius: 999px;
-  border: 1.7px solid var(--primary);
-  background: var(--gray-100);
-  color: var(--primary);
-  font-size: 0.95rem;
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: 2px solid var(--primary, #036256);
+  background: var(--white, #fff);
+  color: var(--primary, #036256);
+  font-size: 14px;
   font-weight: 700;
-  font-family: inherit;
-  transition: 0.25s ease;
+  font-family: "Cairo", sans-serif;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  white-space: nowrap;
 }
-
 .time-btn:hover {
-  background: var(--primary-light);
-  transform: translateY(-2px);
-}
-
-.time-btn.active {
+  border: 2px solid var(--primary, #036256);
   background: var(--primary);
   color: var(--white);
-  box-shadow: 0 10px 20px rgba(3, 98, 86, 0.2);
+}
+.time-btn.active {
+  border: 2px solid var(--primary, #036256);
+  background: var(--primary);
+  color: var(--white);
 }
 
+/* ========== زر الحجز ========== */
 .book-btn {
   width: 100%;
-  max-width: 520px;
-  height: 56px;
+  max-width: 400px;
+  margin: 0 auto;
+  display: block;
+  padding: 14px 24px;
   border: none;
-  border-radius: 14px;
-  background: var(--gray-200);
-  color: var(--gray-500);
-  font-size: 1.2rem;
-  font-weight: 600;
-  font-family: inherit;
-  transition: 0.25s ease;
+  border-radius: 16px;
+  background: var(--gray-200, #eaeaea);
+  color: var(--gray-500, #c0c0c0);
+  font-size: 18px;
+  font-weight: 700;
+  font-family: "Cairo", sans-serif;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
 }
 
 .book-btn:not(:disabled) {
-  background: var(--primary);
-  color: var(--white);
+  background: var(--primary, #036256);
+  color: var(--white, #fff);
 }
 
 .book-btn:not(:disabled):hover {
-  background: var(--primary-hover);
+  background: var(--primary-hover, #028d7a);
+  transform: translateY(-2px);
 }
 
-.empty-times,
-.loading-text,
-.empty-message {
-  width: 100%;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 1rem;
-  margin: 0;
-}
+/* ========== RESPONSIVE - من البداية للجوال ========== */
 
-@media (max-width: 991.98px) {
+/* من 992px إلى 1200px */
+@media (max-width: 1200px) {
   .appointment-card {
-    padding: 26px 20px;
-    border-radius: 28px;
+    padding: 25px;
   }
-
-  .booking-title {
-    font-size: 2rem;
+  
+  .day-btn {
+    min-width: 90px;
+    padding: 10px 12px;
   }
-
-  .doctor-name {
-    font-size: 1.9rem;
-  }
-
-  .section-main-title {
-    font-size: 1.5rem;
-  }
-
-  .doctor-image-wrap {
-    width: 105px;
-    height: 105px;
-  }
-
-  .doctor-about {
-    font-size: 1.05rem;
-  }
-
-  .doctor-meta li {
-    font-size: 0.95rem;
+  
+  .time-btn {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }
 
-@media (max-width: 767.98px) {
-  .days-list,
-  .times-list {
-    gap: 12px;
+/* من 768px إلى 991px (تابلت) */
+@media (max-width: 991px) {
+  .appointment-page {
+    padding-top: 150px !important;
   }
-
+  
+  .doctor-image-wrap {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .doctor-name {
+    font-size: 24px;
+  }
+  
+  .booking-title {
+    font-size: 28px;
+  }
+  
+  .section-main-title {
+    font-size: 18px;
+  }
+  
   .day-btn {
-    min-width: 92px;
-    min-height: 70px;
-    border-radius: 22px;
+    min-width: 85px;
+    padding: 8px 10px;
   }
-
+  
   .day-btn .day-name {
-    font-size: 0.88rem;
+    font-size: 13px;
   }
-
+  
   .day-btn .day-date {
-    font-size: 0.82rem;
+    font-size: 11px;
   }
+}
 
+/* من 576px إلى 767px (تابلت صغير) */
+@media (max-width: 767px) {
+  .appointment-page {
+    padding-top: 150px !important;
+    padding-bottom: 50px;
+  }
+  
+  .appointment-card {
+    padding: 20px;
+  }
+  
+  /* تحويل الصف لعمودي */
+  .row {
+    flex-direction: column;
+  }
+  
+  .col-lg-5, .col-lg-7 {
+    width: 100%;
+  }
+  
+  .doctor-info-card {
+    margin-bottom: 30px;
+  }
+  
+  .doctor-image-wrap {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .doctor-name {
+    font-size: 22px;
+  }
+  
+  .doctor-about {
+    font-size: 15px;
+  }
+  
+  .booking-title {
+    font-size: 24px;
+  }
+  
+  .section-main-title {
+    font-size: 17px;
+  }
+  
+  .days-list {
+    gap: 10px;
+  }
+  
+  .day-btn {
+    min-width: 75px;
+    padding: 8px 8px;
+  }
+  
+  .day-btn .day-name {
+    font-size: 12px;
+  }
+  
+  .day-btn .day-date {
+    font-size: 10px;
+  }
+  
+  .times-list {
+    gap: 10px;
+  }
+  
   .time-btn {
-    min-width: 130px;
-    height: 48px;
-    font-size: 0.9rem;
+    padding: 8px 16px;
+    font-size: 13px;
   }
+}
 
+/* من 0px إلى 575px (جوال) - الأهم */
+@media (max-width: 575px) {
+  .appointment-page {
+    padding-top: 150px !important;
+    padding-bottom: 40px;
+  }
+  
+  .appointment-card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+  
+  /* الصورة أصغر */
+  .doctor-image-wrap {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+  }
+  
+  .doctor-name {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  
+  .doctor-about {
+    font-size: 15px;
+    padding: 4px 14px;
+    margin-bottom: 12px;
+  }
+  
+  .doctor-meta li {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+  
+  /* عنوان الحجز */
+  .booking-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .booking-title::after {
+    width: 40px;
+    bottom: -8px;
+  }
+  
+  .section-main-title {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  .booking-section {
+    margin-bottom: 25px;
+  }
+  
+  /* أيام الأسبوع - تاخد عرض كامل */
+  .days-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .day-btn {
+    min-width: auto;
+    width: 100%;
+    padding: 10px 5px;
+  }
+  
+  .day-btn .day-name {
+    font-size: 13px;
+  }
+  
+  .day-btn .day-date {
+    font-size: 11px;
+  }
+  
+  /* أزرار الوقت - نصين في الصف */
+  .times-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .time-btn {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+  
+  /* زر الحجز */
   .book-btn {
-    font-size: 1.2rem;
+    font-size: 16px;
+    padding: 12px 16px;
+    max-width: 100%;
+  }
+}
+
+/* جوال صغير جداً (أقل من 400px) */
+@media (max-width: 400px) {
+  .appointment-card {
+    padding: 12px;
+  }
+  
+  .doctor-image-wrap {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .doctor-name {
+    font-size: 18px;
+  }
+  
+  .booking-title {
+    font-size: 20px;
+  }
+  
+  .section-main-title {
+    font-size: 15px;
+  }
+  
+  .days-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .day-btn {
+    padding: 8px 5px;
+  }
+  
+  .day-btn .day-name {
+    font-size: 12px;
+  }
+  
+  .day-btn .day-date {
+    font-size: 10px;
+  }
+  
+  .time-btn {
+    font-size: 12px;
+    padding: 8px 5px;
+  }
+  
+  .book-btn {
+    font-size: 14px;
+    padding: 10px 12px;
   }
 }
