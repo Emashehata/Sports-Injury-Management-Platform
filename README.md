@@ -86,28 +86,33 @@ availability/
 contact_messages/
 ```
 ---
-📁 project-root
+## 📂 Project Structure
+ project-root/
 │
-├── 📁 pages
-│   ├── Home
-│   ├── Players
-│   ├── Specialists
-│   ├── Injuries
-│   ├── News
-│   └── Contact
+├── pages/
+│ ├── Home/
+│ ├── Players/
+│ ├── Specialists/
+│ ├── Injuries/
+│ ├── News/
+│ └── Contact/
 │
-├── 📁 services
-│   ├── user_services.js
-│   ├── injury_services.js
-│   ├── appointment_services.js
-│   ├── availability_services.js
+├── services/
+│ ├── user_services.js
+│ ├── injury_services.js
+│ ├── appointment_services.js
+│ └── availability_services.js
 │
-├── 📁 shared
-│   ├── js (navbar, sidebar, toaster)
-│   ├── models
-│   └── components
+├── shared/
+│ ├── js/
+│ │ ├── navbar.js
+│ │ ├── sidebar.js
+│ │ └── toaster.js
+│ │
+│ ├── models/
+│ └── components/
 │
-├── 📁 css
+├── css/
 │
 └── index.html
 
