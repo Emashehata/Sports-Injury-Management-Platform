@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الملف الشخصي - Medical</title>
+
+    <!-- Bootstrap & Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/toaster.css">
+    <link rel="stylesheet" href="./profile.css">
+</head>
+<body>
+    <nav></nav>
+
+    <section class="profile-section">
+        <div class="container">
+            <!-- شاشة التحميل -->
+            <div id="loadingState" class="loading-overlay">
+                <div class="loading-card">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">جاري التحميل...</span>
+                    </div>
+                    <h4>جاري تحميل بياناتك</h4>
+                    <p>يرجى الانتظار...</p>
+                </div>
+            </div>
+
+            <!-- المحتوى الرئيسي (مخفي في البداية) -->
+            <div id="profileContent" style="display: none;">
+                <div class="profile-card">
+                    <!-- Header مع الصورة -->
+                    <div class="profile-header">
+                        <div class="profile-avatar-wrapper">
+                            <div class="profile-avatar" id="avatarContainer">
+                                <i class="fa-regular fa-user fa-3x"></i>
+                            </div>
+                            <div class="avatar-actions" id="avatarActions" style="display: none;">
+                                <button type="button" class="avatar-btn avatar-change" id="changeAvatarBtn" title="تغيير الصورة">
+                                    <i class="fa-solid fa-camera"></i>
+                                </button>
+                                <button type="button" class="avatar-btn avatar-remove" id="removeAvatarBtn" title="حذف الصورة">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                        <h2 id="userName">-</h2>
+                        <span class="profile-type" id="userType">-</span>
+                        <button class="profile-edit-btn" id="editToggleBtn">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            تعديل الملف الشخصي
+                        </button>
+                    </div>
+
+                    <!-- باقي المحتوى كما هو -->
+                    <div class="profile-content">
+                        <form id="profileForm">
+                            <!-- معلومات أساسية -->
+                            <div class="info-section">
+                                <h3 class="section-title">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    المعلومات الأساسية
+                                </h3>
+                                
+                                <div class="info-grid">
+                                    <div class="info-field">
+                                        <label>الاسم الكامل</label>
+                                        <div class="field-value" id="nameDisplay">-</div>
+                                        <input type="text" class="field-input" id="nameInput" style="display: none;">
+                                    </div>
+
+                                    <div class="info-field">
+                                        <label>البريد الإلكتروني</label>
+                                        <div class="field-value" id="emailDisplay">-</div>
+                                        <input type="email" class="field-input" id="emailInput" style="display: none;">
+                                    </div>
+
+                                    <div class="info-field">
+                                        <label>رقم الهاتف</label>
+                                        <div class="field-value" id="phoneDisplay">-</div>
+                                        <input type="tel" class="field-input" id="phoneInput" style="display: none;">
+                                    </div>
+
+                                    <div class="info-field password-field" id="passwordField" style="display: none;">
+                                        <label>كلمة المرور الجديدة</label>
+                                        <input type="password" class="field-input" id="passwordInput" placeholder="اتركها فارغة إذا لم ترد التغيير">
+                                        <small class="text-muted">اتركها فارغة للحفاظ على كلمة المرور الحالية</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- خصائص اللاعب -->
+                            <div id="playerSection" style="display: none;">
+                                <div class="info-section">
+                                    <h3 class="section-title">
+                                        <i class="fa-solid fa-futbol"></i>
+                                        المعلومات الرياضية
+                                    </h3>
+                                    
+                                    <div class="info-grid">
+                                        <div class="info-field">
+                                            <label>الرياضة</label>
+                                            <div class="field-value" id="sportDisplay">-</div>
+                                            <input type="text" class="field-input" id="sportInput" style="display: none;" placeholder="مثل: كرة قدم">
+                                        </div>
+
+                                        <div class="info-field">
+                                            <label>العمر</label>
+                                            <div class="field-value" id="ageDisplay">-</div>
+                                            <input type="number" class="field-input" id="ageInput" style="display: none;" placeholder="العمر">
+                                        </div>
+
+                                        <div class="info-field">
+                                            <label>الطول (سم)</label>
+                                            <div class="field-value" id="heightDisplay">-</div>
+                                            <input type="number" class="field-input" id="heightInput" style="display: none;" placeholder="الطول بالسم">
+                                        </div>
+
+                                        <div class="info-field">
+                                            <label>الوزن (كجم)</label>
+                                            <div class="field-value" id="weightDisplay">-</div>
+                                            <input type="number" class="field-input" id="weightInput" style="display: none;" placeholder="الوزن بالكجم">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- خصائص الأخصائي -->
+                            <div id="specialistSection" style="display: none;">
+                                <div class="info-section">
+                                    <h3 class="section-title">
+                                        <i class="fa-solid fa-stethoscope"></i>
+                                        المعلومات المهنية
+                                    </h3>
+                                    
+                                    <div class="info-grid">
+                                        <div class="info-field">
+                                            <label>التخصص</label>
+                                            <div class="field-value" id="specializationDisplay">-</div>
+                                            <input type="text" class="field-input" id="specializationInput" style="display: none;" placeholder="مثل: علاج طبيعي">
+                                        </div>
+
+                                        <div class="info-field">
+                                            <label>سنوات الخبرة</label>
+                                            <div class="field-value" id="experienceDisplay">-</div>
+                                            <input type="number" class="field-input" id="experienceInput" style="display: none;" placeholder="عدد السنوات">
+                                        </div>
+
+                                        <div class="info-field">
+                                            <label>المؤهل العلمي</label>
+                                            <div class="field-value" id="qualificationDisplay">-</div>
+                                            <input type="text" class="field-input" id="qualificationInput" style="display: none;" placeholder="مثل: بكالوريوس">
+                                        </div>
+
+                                        <div class="info-field">
+                                            <label>عنوان العيادة</label>
+                                            <div class="field-value" id="clinicAddressDisplay">-</div>
+                                            <input type="text" class="field-input" id="clinicAddressInput" style="display: none;" placeholder="عنوان العيادة">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- أزرار -->
+                            <div class="form-actions">
+                                <button type="button" class="btn-save" id="saveBtn" style="display: none;">
+                                    <i class="fa-regular fa-floppy-disk"></i>
+                                    حفظ التغييرات
+                                </button>
+                                <button type="button" class="btn-cancel" id="cancelBtn" style="display: none;">
+                                    <i class="fa-regular fa-circle-xmark"></i>
+                                    إلغاء
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer></footer>
+
+    <script type="module" src="../../../shared/js/footer.js"></script>
+    <script type="module" src="../../../shared/js/navbar.js"></script>
+    <script type="module" src="../../../shared/js/toaster.js"></script>
+    <script type="module" src="./profile.js"></script>
+</body>
+</html>
