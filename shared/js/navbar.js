@@ -39,7 +39,7 @@ function getRoleBasedLink(user) {
           مواعيدي
         </a>
       </li>
-       <li>
+      <li>
         <a href="${buildPath("pages/Player/medical_record/medical_record.html")}">
           السجل الطبي
         </a>
@@ -49,7 +49,7 @@ function getRoleBasedLink(user) {
 
   if (userType === "specialist" || userType === "specilist") {
     return `
-     <li>
+      <li>
         <a href="${buildPath("pages/Specialists/Doctor_appointments/doctor_appointments.html")}">
           مواعيدي
         </a>
@@ -73,7 +73,7 @@ function getProfilePath(user) {
   }
 
   if (userType === "specialist" || userType === "specilist") {
-    return buildPath("pages/Specialist/profile/profile.html");
+    return buildPath("pages/Specialists/profile/profile.html");
   }
 
   return buildPath("pages/Home/home.html");
@@ -104,24 +104,24 @@ function getAuthSection(user) {
   }
 
   return `
-     <div class="navbar-auth-dropdown">
-    <button class="navbar-user-trigger" id="userMenuBtn" type="button" aria-label="قائمة الحساب">
-      <i class="fa-solid fa-circle-user"></i>
-      <span class="navbar-user-name">حسابي</span>
-      <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
-    </button>
+    <div class="navbar-auth-dropdown">
+      <button class="navbar-user-trigger" id="userMenuBtn" type="button" aria-label="قائمة الحساب">
+        <i class="fa-solid fa-circle-user"></i>
+        <span class="navbar-user-name">حسابي</span>
+        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+      </button>
 
-    <div class="navbar-dropdown-menu" id="userDropdownMenu">
-      <a href="${buildPath("pages/auth/Login/login.html")}" class="dropdown-item">
-        <i class="fa-solid fa-right-to-bracket"></i>
-        <span>تسجيل الدخول</span>
-      </a>
-      <a href="${buildPath("pages/auth/Register/register.html")}" class="dropdown-item">
-        <i class="fa-solid fa-user-plus"></i>
-        <span>إنشاء حساب</span>
-      </a>
+      <div class="navbar-dropdown-menu" id="userDropdownMenu">
+        <a href="${buildPath("pages/auth/Login/login.html")}" class="dropdown-item">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>تسجيل الدخول</span>
+        </a>
+        <a href="${buildPath("pages/auth/Register/register.html")}" class="dropdown-item">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>إنشاء حساب</span>
+        </a>
+      </div>
     </div>
-  </div>
   `;
 }
 
@@ -151,42 +151,54 @@ function renderNavbar() {
           <i class="fa-solid fa-bars"></i>
         </button>
 
-         <div class="navbar-links-wrapper">
-  <ul class="navbar-links">
-    <li><a href="${buildPath("pages/Home/home.html")}">الرئيسية</a></li>
-    <li><a href="${buildPath("pages/About_us/about_us.html")}">من نحن</a></li>
-    <li><a href="${buildPath("pages/Specialists/specialist.html")}">الفريق الطبي</a></li>
-    <li><a href="${buildPath("pages/contact_us/contact_us.html")}">تواصل معنا</a></li>
-    <li><a href="${buildPath("pages/News/news.html")}">الأخبار</a></li>
-    ${roleLink}
-  </ul>
-</div>
+        <div class="navbar-links-wrapper">
+          <ul class="navbar-links">
+            <li><a href="${buildPath("pages/Home/home.html")}">الرئيسية</a></li>
+            <li><a href="${buildPath("pages/News/news.html")}">الأخبار</a></li>
+            <li><a href="${buildPath("pages/Specialists/specialist.html")}">الفريق الطبي</a></li>
+            ${roleLink}
+            <li><a href="${buildPath("pages/About_us/about_us.html")}">من نحن</a></li>
+            <li><a href="${buildPath("pages/contact_us/contact_us.html")}">تواصل معنا</a></li>
+          </ul>
+        </div>
 
-<div class="navbar-actions">
-  ${authSection}
-</div>
+        <div class="navbar-actions">
+          ${authSection}
+        </div>
+
       </div>
     </div>
   `;
 
+  // Toggle menu for mobile
   const toggleBtn = nav.querySelector(".navbar-toggle");
   const linksWrapper = nav.querySelector(".navbar-links-wrapper");
+  const actions = nav.querySelector(".navbar-actions");
 
-  toggleBtn?.addEventListener("click", () => {
-    linksWrapper.classList.toggle("show");
-  });
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      linksWrapper?.classList.toggle("show");
+      actions?.classList.toggle("show");
+    });
+  }
 
+  // User dropdown menu
   const userMenuBtn = nav.querySelector("#userMenuBtn");
   const userDropdownMenu = nav.querySelector("#userDropdownMenu");
   const logoutBtn = nav.querySelector("#logoutBtn");
 
-  userMenuBtn?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    userDropdownMenu?.classList.toggle("show");
-  });
+  if (userMenuBtn) {
+    userMenuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      userDropdownMenu?.classList.toggle("show");
+    });
+  }
 
-  logoutBtn?.addEventListener("click", logout);
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", logout);
+  }
 
+  // Close dropdown when clicking outside
   document.addEventListener("click", (e) => {
     if (
       userDropdownMenu &&
