@@ -49,10 +49,11 @@ export function createSidebar(activePage = 'dashboard') {
   `;
 }
 
-export function initSidebar() {
+ export function initSidebar() {
   const logoutBtn = document.getElementById('sidebarLogoutBtn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('currentUser');
       localStorage.removeItem('user');
       localStorage.removeItem('userType');
       window.location.href = '../../index.html';
