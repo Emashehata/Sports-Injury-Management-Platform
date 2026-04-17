@@ -87,6 +87,7 @@ contact_messages/
 ```
 ---
 ## 📂 Project Structure
+****
  project-root/
 │
 ├── pages/
@@ -115,7 +116,7 @@ contact_messages/
 ├── css/
 │
 └── index.html
-
+****
 ---
 ## 📬 Contact
 
