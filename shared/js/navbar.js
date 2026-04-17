@@ -69,11 +69,11 @@ function getProfilePath(user) {
   const userType = getUserType(user);
 
   if (userType === "player") {
-    return buildPath("pages/Player/profile/profile.html");
+    return buildPath("pages/Profile/profile.html");
   }
 
   if (userType === "specialist" || userType === "specilist") {
-    return buildPath("pages/Specialists/profile/profile.html");
+    return buildPath("pages/Profile/profile.html");
   }
 
   return buildPath("pages/Home/home.html");
