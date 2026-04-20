@@ -158,7 +158,7 @@ function renderNavbar() {
             <li><a href="${buildPath("pages/Specialists/specialist.html")}">الفريق الطبي</a></li>
             ${roleLink}
             <li><a href="${buildPath("pages/About_us/about_us.html")}">من نحن</a></li>
-            <li><a href="${buildPath("pages/contact_us/contact_us.html")}">تواصل معنا</a></li>
+            <li><a href="${buildPath("pages/Contact_us/contact_us.html")}">تواصل معنا</a></li>
           </ul>
         </div>
 
