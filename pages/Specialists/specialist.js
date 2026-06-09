@@ -18,7 +18,7 @@ function createDoctorCard(doctor) {
           </div>
         </div>
         <div class="doctor-content">
-          <h4>دكتور ${doctor.name}</h4>
+          <h4>اخصائي ${doctor.name}</h4>
           <span class="specialty">${doctor.specialization}</span>
           <p>${doctor.qualification}</p>
           <div class="doctor-meta">
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('Doctors data:', doctors);
     
     if (!doctors || doctors.length === 0) {
-      container.innerHTML = '<div class="col-12 text-center"><p>لا يوجد أطباء حالياً.</p></div>';
+      container.innerHTML = '<div class="col-12 text-center"><p>لا يوجد أخصائي حالياً.</p></div>';
       return;
     }
     

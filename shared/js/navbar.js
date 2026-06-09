@@ -140,11 +140,12 @@ function renderNavbar() {
       <div class="navbar-box">
 
         <a href="${buildPath("pages/Home/home.html")}" class="navbar-brand">
-          <img src="${buildPath("assets/images/logosport.png")}" alt="شعار المنصة" class="navbar-logo">
+          
           <div class="navbar-brand-text">
             <span class="brand-title">SportCare</span>
             <span class="brand-subtitle">تأهيل حركي مصر</span>
           </div>
+          <img src="${buildPath("assets/images/egypt.jpeg")}" alt="شعار المنصة" class="navbar-logo">
         </a>
 
         <button class="navbar-toggle" aria-label="فتح القائمة">
@@ -155,7 +156,7 @@ function renderNavbar() {
           <ul class="navbar-links">
             <li><a href="${buildPath("pages/Home/home.html")}">الرئيسية</a></li>
             <li><a href="${buildPath("pages/News/news.html")}">الأخبار</a></li>
-            <li><a href="${buildPath("pages/Specialists/specialist.html")}">الفريق الطبي</a></li>
+            <li><a href="${buildPath("pages/Specialists/specialist.html")}">الاخصائيين</a></li>
             ${roleLink}
             <li><a href="${buildPath("pages/About_us/about_us.html")}">من نحن</a></li>
             <li><a href="${buildPath("pages/Contact_us/contact_us.html")}">تواصل معنا</a></li>
