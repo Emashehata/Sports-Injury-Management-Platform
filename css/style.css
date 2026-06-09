@@ -46,6 +46,7 @@ body {
 /* =========================
    MAIN NAVBAR (Desktop First)
 ========================= */
+ 
 .main-navbar {
   position: absolute;
   top: 28px;
@@ -60,7 +61,7 @@ body {
   padding: 10px 22px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   gap: 24px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
@@ -69,16 +70,18 @@ body {
 .navbar-brand {
   display: flex;
   align-items: center;
+  flex-direction: row;
   gap: 14px;
   text-decoration: none;
   direction: rtl;
 }
 
 .navbar-logo {
-  width: 70px;
-  height: 70px;
+  width: 500px;
+  /* height: 70px; */
   object-fit: contain;
 }
+ 
 
 .navbar-brand-text {
   display: flex;
@@ -103,6 +106,7 @@ body {
   display: flex;
   align-items: center;
   gap: 34px;
+   margin-right: auto;
 }
 
 .navbar-links {
