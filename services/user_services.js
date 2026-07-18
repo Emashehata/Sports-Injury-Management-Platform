@@ -26,11 +26,10 @@ export async function getAllUsers() {
 
     let users = [];
     
-    // ✅ التعامل مع كل من Object و Array
     if (Array.isArray(data)) {
-      // إذا كانت البيانات مصفوفة
+     
       users = data
-        .filter(user => user !== null && user !== undefined) // إزالة القيم الفارغة
+        .filter(user => user !== null && user !== undefined) 
         .map(user => {
           return new User({
             id: user.id?.toString() || '',
@@ -43,7 +42,6 @@ export async function getAllUsers() {
           });
         });
     } else {
-      // إذا كانت البيانات كائن (Object)
       users = Object.entries(data).map(([key, value]) => {
         return new User({
           id: key,
@@ -51,8 +49,6 @@ export async function getAllUsers() {
         });
       });
     }
-
-    console.log('✅ تم جلب المستخدمين:', users);
 
     return {
       success: true,
@@ -70,7 +66,6 @@ export async function getAllUsers() {
   }
 }
 
-// دالة مساعدة للحصول على المستخدمين ككائن (للتحديث)
 async function getUsersAsObject() {
   try {
     const response = await fetch(`${BASE_URL}/users.json`);
@@ -78,7 +73,6 @@ async function getUsersAsObject() {
     
     if (!data) return {};
     if (Array.isArray(data)) {
-      // تحويل المصفوفة إلى كائن باستخدام id كمفتاح
       const obj = {};
       data.forEach(user => {
         if (user && user.id) {
@@ -107,7 +101,6 @@ function validateUser(user) {
     return "Password must be at least 6 characters";
   }
 
-  // ✅ السماح بـ specialist
   const allowedTypes = ["admin", "player", "specialist"];
   if (!allowedTypes.includes(user.user_type)) {
     return "Invalid user type. Allowed types: " + allowedTypes.join(", ");
