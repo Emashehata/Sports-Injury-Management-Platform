@@ -140,12 +140,11 @@ function renderNavbar() {
       <div class="navbar-box">
 
         <a href="${buildPath("pages/Home/home.html")}" class="navbar-brand">
-          
-          <div class="navbar-brand-text">
+        <img src="${buildPath("assets/images/logosport.png")}" alt="شعار المنصة" class="navbar-logo">  
+        <div class="navbar-brand-text">
             <span class="brand-title">SportCare</span>
             <span class="brand-subtitle">تأهيل حركي مصر</span>
           </div>
-          <img src="${buildPath("assets/images/egypt.jpeg")}" alt="شعار المنصة" class="navbar-logo">
         </a>
 
         <button class="navbar-toggle" aria-label="فتح القائمة">
