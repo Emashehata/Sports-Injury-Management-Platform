@@ -56,8 +56,8 @@ function renderFooter() {
           <ul class="footer-links">
             <li><a href="${buildPath("pages/Home/home.html")}">الرئيسية</a></li>
             <li><a href="${buildPath("pages/About_us/about_us.html")}">من نحن</a></li>
-            <li><a href="${buildPath("pages/services/services.html")}">الخدمات</a></li>
-            <li><a href="${buildPath("pages/injuries/injuries.html")}">الإصابات</a></li>
+            <li><a href="${buildPath("pages/About_us/about_us.html")}">الخدمات</a></li>
+            <li><a href="${buildPath("pages/Home/home.html")}">اخصائيو الإصابات والتاهيل </a></li>
             <li><a href="${buildPath("pages/contact_us/contact_us.html")}">تواصل معنا</a></li>
           </ul>
         </div>
@@ -65,10 +65,10 @@ function renderFooter() {
         <div class="footer-links-col">
           <h4 class="footer-title">الخدمات</h4>
           <ul class="footer-links">
-            <li><a href="#">تسجيل الإصابات</a></li>
-            <li><a href="#">متابعة الحالة الطبية</a></li>
+            <li><a href="#">تسجيل اخصائيو الإصابات والتاهيل </a></li>
+            <li><a href="#">متابعة سجلات الاخصائيين</a></li>
             <li><a href="#">برامج التأهيل</a></li>
-            <li><a href="#">تقارير الأداء الطبي</a></li>
+            <li><a href="#">دورات تدريبية</a></li>
             <li><a href="#">تقييم العودة للملاعب</a></li>
           </ul>
         </div>
